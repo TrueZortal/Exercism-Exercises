@@ -1,7 +1,6 @@
 class Acronym
   def self.abbreviate(text)
-    a = text.scan(/\b\w/) #what does \b\w even mean?
-    #a.map! {|x| x.upcase}
+    a = text.scan(/\b\w/)
     a.map! {|x| x[0].upcase}
     puts a.join
   end
