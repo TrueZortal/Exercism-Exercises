@@ -1,23 +1,18 @@
 class Series
   def initialize(string)
-    puts string
-    @string = string.scan(/\w/).map {|x| x.to_i}
-    # puts "ile elementow w oryginalnym entry"
-    # puts @string.count
-    # puts "@string"
-    #puts @string
+    @string = string
   end
+
   def slices(x)
-    temp = []
-    @string.each {|series| temp << @string[series..series+x] }
-    # puts "ile elementow"
-    # puts temp.count
-    # puts "temp"
-    # puts temp
+    error = @string.length - x
+    if error < 0 then
+      raise ArgumentError
+    else
+      temp = []
+      0.upto(error) do |index|
+      temp << @string[index, x]
+    end
   end
-
+  temp
 end
-
-Series.new('98273463').slices(1)
-
-#puts series.slices(1)
+end
