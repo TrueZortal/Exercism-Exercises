@@ -4,14 +4,11 @@ class Series
   end
 
   def slices(x)
-    error = @string.length - x
-    if error < 0 then
-      raise ArgumentError
-    else
+    max_index = @string.length - x
+    raise ArgumentError unless max_index >= 0
       temp = []
-      0.upto(error) do |index|
+      0.upto(max_index) do |index|
       temp << @string[index, x]
-    end
   end
   temp
 end
