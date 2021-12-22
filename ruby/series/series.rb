@@ -11,7 +11,7 @@ class Series
       raise ArgumentError
     else
     until counter > max_value
-      result << @string[counter,x]
+      result.push(@string[counter,x])
       counter += 1
     end
     end
