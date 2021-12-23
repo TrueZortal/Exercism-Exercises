@@ -1,7 +1,7 @@
 class Hamming
   def self.compute(text1, text2)
-    @text1 = text1.scan(/\w/)
-    @text2 = text2.scan(/\w/)
+    @text1 = text1.chars
+    @text2 = text2.chars
     raise ArgumentError unless @text1.length == @text2.length
     index = 0
     hamming = 0
