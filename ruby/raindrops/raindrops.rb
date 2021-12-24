@@ -3,13 +3,13 @@ class Raindrops
     @number = number
     result = String.new
    if @number.modulo(3) == 0
-     result = result + "Pling"
+     result += "Pling"
    end
    if @number.modulo(5) == 0
-    result = result + "Plang"
+    result += "Plang"
    end
    if @number.modulo(7) == 0
-    result = result + "Plong"
+    result += "Plong"
    end
    result.empty? ? "#{number}" : result
   end
