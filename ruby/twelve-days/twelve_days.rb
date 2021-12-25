@@ -5,19 +5,17 @@ class TwelveDays
     gifts = temp_gifts.reverse
     order = temp_order.reverse
     index = 0
-    puts "On the #{order[index]} day of Christmas my true love gave to me: #{gifts[index,1].join}"
-    puts
+    song = String.new("On the #{order[index]} day of Christmas my true love gave to me: #{gifts[index,1].join}\n")
     index += 1
     while index < 12 do
       if index < 11
-        puts "On the #{order[index]} day of Christmas my true love gave to me: #{gifts[1,index].reverse.join}and #{gifts[0]}"
-        puts ""
+        song = song + "\nOn the #{order[index]} day of Christmas my true love gave to me: #{gifts[1,index].reverse.join}and #{gifts[0]}\n"
         index += 1
       else
-      puts "On the #{order[index]} day of Christmas my true love gave to me: #{gifts[1,index+1].reverse.join}and #{gifts[0]}"
+       song = song + "\nOn the #{order[index]} day of Christmas my true love gave to me: #{gifts[1,index+1].reverse.join}and #{gifts[0]}\n"
       index += 1
       end
     end
+    song
   end
 end
-
