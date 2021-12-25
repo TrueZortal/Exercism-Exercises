@@ -26,23 +26,3 @@ class Clock
   end
 end
 
-
-
-
-# if minute > 59
-#   @hour = (hour.to_i+(minute/60).to_i).modulo(24)
-#   @minute = minute.modulo(60)
-# elsif minute <=59 && minute >= 0
-# @minute = minute.modulo(60)
-# @hour = hour.modulo(24)
-# elsif minute < 0 && minute > -59
-#   @hour = (((hour.to_i*60)+minute.to_i)/60).modulo(24)
-#   @minute = minute.modulo(60)
-# else
-#   @hour = (hour.to_i+(minute/60).to_i).modulo(24)
-#   @minute = minute.modulo(60)
-# end
-
-#@hour = ((((hour.to_i*60)+minute.to_i)/60)+(((additional.hour.to_i*60)+additional.minute.to_i)/60)).modulo(24)
-
-# why do we need to implement the def == method to successfully assess?
