@@ -1,21 +1,10 @@
 # frozen_string_literal: true
 
 class Complement
+  @complements_of_RNA_thingies = { 'G' => 'C', 'C' => 'G', 'T' => 'A', 'A' => 'U' }
   def self.of_dna(given_value)
-    @rna = given_value.chars
     complement = String.new
-    @rna.each do |var|
-      case var
-      when 'G'
-        complement += 'C'
-      when 'C'
-        complement += 'G'
-      when 'T'
-        complement += 'A'
-      when 'A'
-        complement += 'U'
-      end
-    end
+    given_value.chars.map { |x| complement += @complements_of_RNA_thingies[x] }
     complement
   end
 end
