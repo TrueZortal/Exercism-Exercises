@@ -6,23 +6,19 @@ class Triangle
   end
 
   def equilateral?
-    verify_triangularity_total ? unique_entries == 1 : false
+    verify_triangularity_total && unique_entries == 1
   end
 
   def isosceles?
-    if verify_triangularity_total
-      equilateral? ? true : unique_entries == 2
-    else
-      false
-    end
+    verify_triangularity_total && (equilateral? || unique_entries == 2)
   end
 
   def scalene?
-    verify_triangularity_total ? unique_entries == 3 : false
+    verify_triangularity_total && unique_entries == 3
   end
 
   def degenerate?
-    verify_triangularity_total && verify_triangular_degeneracy ? true : false
+    verify_triangularity_total && verify_triangular_degeneracy
   end
 
   private
