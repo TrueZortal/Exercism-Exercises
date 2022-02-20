@@ -9,11 +9,12 @@ class PhoneNumber
   private
 
   def self.check_conditions
+    exchange_code_and_area_code_are_valid = @struct_test.last(10)[0].between?(2, 9) && @struct_test.last(10)[3].between?(2, 9)
     case @struct_test.length
     when 10
-      @struct_test.last(10)[0].between?(2, 9) && @struct_test.last(10)[3].between?(2, 9)
+      exchange_code_and_area_code_are_valid
     when 11
-      @struct_test.last(10)[0].between?(2, 9) && @struct_test.last(10)[3].between?(2, 9) && @struct_test[0] == 1
+      exchange_code_and_area_code_are_valid && @struct_test[0] == 1
     end
   end
 end
