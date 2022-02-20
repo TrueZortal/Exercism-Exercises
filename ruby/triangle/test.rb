@@ -2,21 +2,20 @@
 
 class Triangle
 
-  TRIANGLES = {
-    equilateral: verify_triangularity_total && unique_entries == 1,
-    isosceles: verify_triangularity_total && (equilateral? || unique_entries == 2),
-    scalene: verify_triangularity_total && unique_entries == 3,
-    degenerate: verify_triangularity_total && verify_triangular_degeneracy
-  }
-
-
   def initialize(given_input)
     @sides = given_input
+    @triangles = {
+      equilateral: verify_triangularity_total && unique_entries == 1,
+      isosceles: verify_triangularity_total && (equilateral? || unique_entries == 2),
+      scalene: verify_triangularity_total && unique_entries == 3,
+      degenerate: verify_triangularity_total && verify_triangular_degeneracy
+    }
+    puts @triangles
     end
 
-    TRIANGLES.each do |triangle, test|
+    @triangles.each do |triangle, test|
       define_method (triangle.to_s+'?') do
-        {test}
+        test
       end
     end
 
