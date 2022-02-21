@@ -1,7 +1,17 @@
-=begin
-Write your code for the 'Collatz Conjecture' exercise in this file. Make the tests in
-`collatz_conjecture_test.rb` pass.
+class CollatzConjecture
+  def self.steps(number)
+    raise ArgumentError unless number >= 1
+    index = 0
+      until number == 1
+        if number%2 == 0
+          number = number/2
+          index += 1
+        else
+          number = 3*number + 1
+          index += 1
+        end
+      end
+      index
+  end
+end
 
-To get started with TDD, see the `README.md` file in your
-`ruby/collatz-conjecture` directory.
-=end
