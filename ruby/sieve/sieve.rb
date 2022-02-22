@@ -1,4 +1,5 @@
-require 'byebug'
+# frozen_string_literal: true
+
 class Sieve
   def initialize(limit)
     @limit = limit
@@ -10,7 +11,7 @@ class Sieve
     not_primes = []
     @full_array.each do |x|
       if not_primes.include?(x)
-        #do nothing
+        # do nothing
       else
         primes << x
         index = 2
@@ -23,5 +24,3 @@ class Sieve
     primes
   end
 end
-
-
