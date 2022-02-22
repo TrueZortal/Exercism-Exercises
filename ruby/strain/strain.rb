@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 module Enumerable
   def keep(&block)
     x = []
     each do |val|
-      if block.call(val)
-        x << val
-      end
+      x << val if block.call(val)
     end
     x
   end
@@ -12,9 +12,7 @@ module Enumerable
   def discard(&block)
     x = []
     each do |val|
-      if block.call(val) == false
-        x << val
-      end
+      x << val if block.call(val) == false
     end
     x
   end
