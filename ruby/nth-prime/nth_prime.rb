@@ -1,22 +1,22 @@
-class Prime
+# frozen_string_literal: true
 
+class Prime
   def self.nth(which_prime)
-    raise ArgumentError unless which_prime > 0
-    @full_array = Array(2..105000)
-    @primes = []
-    not_primes = []
-    @full_array.each do |x|
-      if not_primes.include?(x)
-        # do nothing
-      else
-        @primes << x
-        index = 2
-        until x * index > 105000
-          not_primes << x * index
-          index += 1
-        end
-      end
+    raise ArgumentError unless which_prime.positive?
+
+    @primes = [2, 3]
+    index = @primes.last
+    until @primes.length > which_prime
+      index += 2
+      @primes << index.to_i if check_primacy(index)
+    end
+    @primes[which_prime - 1]
   end
-    @primes[which_prime-1]
+
+  def self.check_primacy(prime_question_mark)
+    limit = Math.sqrt(prime_question_mark)
+    @primes.none? do |x|
+      limit < x ? (return true) : (prime_question_mark.to_i % x).zero?
+    end
   end
 end
