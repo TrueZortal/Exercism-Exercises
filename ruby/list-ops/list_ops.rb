@@ -1,8 +1,9 @@
-class ListOps
+# frozen_string_literal: true
 
+class ListOps
   def self.arrays(array)
     index = 0
-    array.each do |x|
+    array.each do |_x|
       index += 1
     end
     index
@@ -31,9 +32,7 @@ class ListOps
   def self.filterer(thing_to_filter, &block)
     array = []
     thing_to_filter.each do |x|
-      if block[x]
-      array << x
-      end
+      array << x if block[x]
     end
     array
   end
@@ -54,4 +53,3 @@ class ListOps
     base
   end
 end
-
