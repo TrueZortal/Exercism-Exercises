@@ -1,0 +1,34 @@
+{
+  "blurb": "Parse and evaluate simple math word problems returning the answer as an integer.",
+  "authors": [
+    "vosechu"
+  ],
+  "contributors": [
+    "budmc29",
+    "cadwallion",
+    "dkinzer",
+    "hilary",
+    "iHiD",
+    "Insti",
+    "jpotts244",
+    "kotp",
+    "kytrinyx",
+    "pgaspar",
+    "srabuini",
+    "tommyschaefer",
+    "tryantwit"
+  ],
+  "files": {
+    "solution": [
+      "wordy.rb"
+    ],
+    "test": [
+      "wordy_test.rb"
+    ],
+    "example": [
+      ".meta/example.rb"
+    ]
+  },
+  "source": "Inspired by one of the generated questions in the Extreme Startup game.",
+  "source_url": "https://github.com/rchatley/extreme_startup"
+}
