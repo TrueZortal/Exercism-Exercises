@@ -1,40 +1,22 @@
 class Robot
 
-  @@existing_names = []
+  @@all_names = 'AA000'..'ZZ999'
 
-  def initialize
-    @alphabet = *('A'..'Z')
-    name_the_robot
-    if @@existing_names.count(@robot_name.join) != 1
-      name_the_robot
-    end
+  @@names = @@all_names.to_a.shuffle.each
+
+  def self.forget
+    @@names = @@all_names.to_a.shuffle.each
   end
 
-  def name
-    @robot_name.join
+  attr_reader :name
+
+  def initialize
+    reset
   end
 
   def reset
-    name_the_robot
-    if @@existing_names.count(@robot_name.join) != 1
-      name_the_robot
-    end
+    @name = @@names.next
   end
 
-  def self.forget
-  @@existing_names = []
-  end
-
-  def name_the_robot
-    @robot_name = []
-    0.upto(1) do
-    @robot_name << @alphabet[rand(26)]
-    end
-    0.upto(2) do
-    @robot_name << rand(10)
-    end
-    @@existing_names << @robot_name.join
-    @robot_name.join
-  end
 end
 
