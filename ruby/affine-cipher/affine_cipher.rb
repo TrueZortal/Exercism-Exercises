@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 class Affine
   numbers = *(0..25)
@@ -14,9 +15,7 @@ class Affine
     index = 0
     until index * @prime % @@alphabet_numbers_match.length == 1
       index += 1
-      if index >= 400
-        raise ArgumentError
-      end
+      raise ArgumentError if index >= 400
     end
     index
   end
@@ -24,11 +23,11 @@ class Affine
   def encode(text)
     encoded_text = []
     array_of_plain_text = text.split(/[^a-zA-Z0-9]/).join.chars.each do |x|
-      if x.to_i == 0 && x != '0'
-        encoded_text << @@alphabet_numbers_match[(@prime * @@alphabet_numbers_match.key(x.downcase) + @coprime) % 26]
-      else
-        encoded_text << x
-      end
+      encoded_text << if x.to_i.zero? && x != '0'
+                        @@alphabet_numbers_match[(@prime * @@alphabet_numbers_match.key(x.downcase) + @coprime) % 26]
+                      else
+                        x
+                      end
     end
     if encoded_text.length <= 5
       encoded_text.join
@@ -42,14 +41,12 @@ class Affine
     array_of_chars_of_code = code.split(' ').join.chars
     decoded_text = []
     array_of_chars_of_code.each do |x|
-      if x.to_i == 0 && x != '0'
-        decoded_text << @@alphabet_numbers_match[(mmi * (@@alphabet_numbers_match.key(x).to_i - @coprime)) % 26]
-      else
-        decoded_text << x
-      end
+      decoded_text << if x.to_i.zero? && x != '0'
+                        @@alphabet_numbers_match[(mmi * (@@alphabet_numbers_match.key(x).to_i - @coprime)) % 26]
+                      else
+                        x
+                      end
     end
     decoded_text.join
   end
-
 end
-
