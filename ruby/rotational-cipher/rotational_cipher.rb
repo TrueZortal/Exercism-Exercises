@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class RotationalCipher
-
   numbers = *(0..25)
   alphabet = *('a'..'z')
   @@alphabet_numbers_match = numbers.zip(alphabet).to_h
