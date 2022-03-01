@@ -1,30 +1,21 @@
-# frozen_string_literal: true
-
 require 'prime'
 
 class PrimeFactors
   def self.of(number)
-    @number = number
-    generate_an_array_of_primes_upto_number
-    @factors = []
-    index = 0
-    if number == 1
-    else
-      until @factors.reduce(:*) == number
-        index = 0
-        index += 1 while @number % @primes[index] != 0
-        @factors << @primes[index]
-        @number /= @primes[index]
+    # generate_an_array_of_primes_upto_number
+    return [] if number < 2
+    factors = []
+    index = 2
+      while number > 1
+        if number % index == 0 and Prime.prime?(index)
+          factors << index
+          number /= index
+        else
+          index += 1
+        end
       end
-    end
-    @factors
+    factors
   end
 
-  def self.generate_an_array_of_primes_upto_number
-    @primes = []
-    Prime.each(@number) do |prime|
-      @primes << prime
-    end
-    @primes
-  end
+\
 end
