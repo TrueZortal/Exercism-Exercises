@@ -2,7 +2,7 @@
 
 class Crypto
   def initialize(plaintext)
-    @text = plaintext.downcase.strip.split(/[^a-z0-9]/).join
+    @text = plaintext.downcase.split(/[^a-z0-9]/).join
   end
 
   def ciphertext

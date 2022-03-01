@@ -12,7 +12,7 @@ module Enumerable
   def discard(&block)
     x = []
     each do |val|
-      x << val if block.call(val) == false
+      x << val unless block.call(val)
     end
     x
   end
