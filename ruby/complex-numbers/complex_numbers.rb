@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 # require "Math"
 
 class ComplexNumber
-
   attr_reader :real, :imaginary
 
   def initialize(real, imaginary)
@@ -16,8 +17,8 @@ class ComplexNumber
   end
 
   def /(other)
-    a = (@real * other.real + @imaginary * other.imaginary)/(other.real^2 + other.imaginary^2)
-    b = (@imaginary * other.real + @real * other.imaginary)/(other.real^2 + other.imaginary^2)
+    a = (@real * other.real + @imaginary * other.imaginary) / (other.real ^ 2 + other.imaginary ^ 2)
+    b = (@imaginary * other.real + @real * other.imaginary) / (other.real ^ 2 + other.imaginary ^ 2)
     ComplexNumber.new(a, b)
   end
 
@@ -26,14 +27,14 @@ class ComplexNumber
   end
 
   def conjugate
-   a = @real
-   b = -@imaginary
-   ComplexNumber.new(a, b)
+    a = @real
+    b = -@imaginary
+    ComplexNumber.new(a, b)
   end
 
   def abs
-    a = @real^2
-    b = @imaginary^2
+    a = @real ^ 2
+    b = @imaginary ^ 2
     ComplexNumber.new(a, b)
   end
 
@@ -50,7 +51,6 @@ class ComplexNumber
   end
 
   def ==(other)
-    real = other.real &&  imaginary = other.imaginary
+    real = other.real && imaginary = other.imaginary
   end
-
 end
