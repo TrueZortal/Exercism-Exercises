@@ -17,8 +17,8 @@ class ComplexNumber
   end
 
   def /(other)
-    a = (@real * other.real + @imaginary * other.imaginary) / (other.real ^ 2 + other.imaginary ^ 2)
-    b = (@imaginary * other.real + @real * other.imaginary) / (other.real ^ 2 + other.imaginary ^ 2)
+    a = (@real * other.real + @imaginary * other.imaginary) / (other.real ** 2 + other.imaginary ** 2)
+    b = (@imaginary * other.real + @real * other.imaginary) / (other.real ** 2 + other.imaginary ** 2)
     ComplexNumber.new(a, b)
   end
 
@@ -33,8 +33,8 @@ class ComplexNumber
   end
 
   def abs
-    a = @real ^ 2
-    b = @imaginary ^ 2
+    a = @real ** 2
+    b = @imaginary ** 2
     ComplexNumber.new(a, b)
   end
 

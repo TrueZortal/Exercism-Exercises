@@ -2,7 +2,6 @@ require 'prime'
 
 class PrimeFactors
   def self.of(number)
-    # generate_an_array_of_primes_upto_number
     return [] if number < 2
     factors = []
     index = 2
