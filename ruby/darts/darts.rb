@@ -1,6 +1,7 @@
-class Darts
+# frozen_string_literal: true
 
-  def initialize(x,y)
+class Darts
+  def initialize(x, y)
     @x = x
     @y = y
     @r = Math.sqrt(@x**2 + @y**2)
