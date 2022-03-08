@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Palindromes
   Palindrome = Struct.new(:value, :factors)
 
@@ -14,7 +16,7 @@ class Palindromes
 
   def largest
     @all_pairs.keep_if do |x|
-      x.reduce(&:*) == @all_pairs.map { |x| x.reduce(&:*)}.max
+      x.reduce(&:*) == @all_pairs.map { |x| x.reduce(&:*) }.max
     end
     max = @all_pairs.max.reduce(&:*)
     Palindrome.new(max, @all_pairs)
@@ -22,10 +24,9 @@ class Palindromes
 
   def smallest
     @all_pairs.keep_if do |x|
-      x.reduce(&:*) == @all_pairs.map { |x| x.reduce(&:*)}.min
+      x.reduce(&:*) == @all_pairs.map { |x| x.reduce(&:*) }.min
     end
     min = @all_pairs.min.reduce(&:*)
     Palindrome.new(min, @all_pairs)
   end
 end
-
