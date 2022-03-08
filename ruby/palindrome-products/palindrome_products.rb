@@ -6,15 +6,11 @@ class Palindromes
   end
 
   def generate
-    @all_pairs = @working_array.combination(2).to_a
-    @working_array.each do |x|
-      @all_pairs << [x, x]
-    end
+    @all_pairs = @working_array.repeated_combination(2).to_a
     @all_pairs.keep_if do |x|
-      x.reduce(&:*) == x.reduce(&:*).digits.join.to_i
+      x.reduce(&:*).to_s == x.reduce(&:*).to_s.reverse
     end
   end
-
 
   def largest
     @all_pairs.keep_if do |x|
@@ -32,5 +28,4 @@ class Palindromes
     Palindrome.new(min, @all_pairs)
   end
 end
-
 
