@@ -1,9 +1,10 @@
-class Matrix
+# frozen_string_literal: true
 
+class Matrix
   attr_reader :rows, :columns
 
   def initialize(matrix)
-    @rows = matrix.lines.map {|x| x.strip.split(' ').map(&:to_i)}
+    @rows = matrix.lines.map { |x| x.strip.split(' ').map(&:to_i) }
     @columns = @rows.transpose
   end
 
