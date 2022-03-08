@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class PerfectNumber
   def self.classify(number)
-    raise RuntimeError unless number > 0
+    raise RuntimeError unless number.positive?
 
     @number = number
     if perfect?
@@ -27,13 +29,10 @@ class PerfectNumber
   def self.find_factors(number)
     index = 1
     factors = []
-    1.upto(number-1) do
-      if number % index == 0
-        factors << index
-      end
+    1.upto(number - 1) do
+      factors << index if (number % index).zero?
       index += 1
     end
     factors.sum
   end
-
 end
