@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class Matrix
-attr_reader :rows
+  attr_reader :rows
 
   def initialize(given_input)
-  @rows = given_input.split(/\n/).map { |x| x.strip.split(' ').map(&:to_i) }
+    @rows = given_input.split(/\n/).map { |x| x.strip.split(' ').map(&:to_i) }
   end
 
   def columns
@@ -19,4 +21,3 @@ attr_reader :rows
     all_columns
   end
 end
-
