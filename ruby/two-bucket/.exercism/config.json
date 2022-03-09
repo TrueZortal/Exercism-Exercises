@@ -1,0 +1,31 @@
+{
+  "blurb": "Given two buckets of different size, demonstrate how to measure an exact number of liters.",
+  "authors": [
+    "repinel"
+  ],
+  "contributors": [
+    "budmc29",
+    "cadwallion",
+    "hilary",
+    "iHiD",
+    "Insti",
+    "jpotts244",
+    "kotp",
+    "kvsm",
+    "kytrinyx",
+    "tryantwit"
+  ],
+  "files": {
+    "solution": [
+      "two_bucket.rb"
+    ],
+    "test": [
+      "two_bucket_test.rb"
+    ],
+    "example": [
+      ".meta/example.rb"
+    ]
+  },
+  "source": "Water Pouring Problem",
+  "source_url": "http://demonstrations.wolfram.com/WaterPouringProblem/"
+}
