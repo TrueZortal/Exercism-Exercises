@@ -1,8 +1,13 @@
+# frozen_string_literal: true
+
 class TwoBucket
   attr_reader :moves
 
-  def initialize(bucket_1,bucket_2,goal,starting_point)
-    @bucket_1_max, @bucket_2_max, @goal,@starting_point = bucket_1,bucket_2,goal,starting_point
+  def initialize(bucket_1, bucket_2, goal, starting_point)
+    @bucket_1_max = bucket_1
+    @bucket_2_max = bucket_2
+    @goal = goal
+    @starting_point = starting_point
     @moves = 1
     build_bucketrrays
     calculate
@@ -19,12 +24,13 @@ class TwoBucket
   private
 
   def build_bucketrrays
-    if @starting_point == 'one'
-      @bucket1 = [ @bucket_1_max, @bucket_1_max,'yes' ]
-      @bucket2 = [ 0 , @bucket_2_max, 'no' ]
-    elsif @starting_point == 'two'
-      @bucket1 = [ 0 , @bucket_1_max, 'no']
-      @bucket2 = [ @bucket_2_max , @bucket_2_max, 'yes']
+    case @starting_point
+    when 'one'
+      @bucket1 = [@bucket_1_max, @bucket_1_max, 'yes']
+      @bucket2 = [0, @bucket_2_max, 'no']
+    when 'two'
+      @bucket1 = [0, @bucket_1_max, 'no']
+      @bucket2 = [@bucket_2_max, @bucket_2_max, 'yes']
     end
   end
 
@@ -39,7 +45,7 @@ class TwoBucket
       elsif non_empty?(starting) || full?(starting)
         pour_from_to_bucket(starting, other)
       end
-      @moves +=1
+      @moves += 1
     end
   end
 
@@ -56,7 +62,7 @@ class TwoBucket
   end
 
   def empty?(bucket)
-    bucket[0] == 0
+    (bucket[0]).zero?
   end
 
   def non_empty?(bucket)
@@ -80,6 +86,4 @@ class TwoBucket
       empty(bucket)
     end
   end
-
-
 end
