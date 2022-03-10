@@ -64,7 +64,7 @@ class MatchingBracketsTest < Minitest::Test
   end
 
   def test_paired_and_wrong_nested_brackets
-    skip
+    # skip
     refute Brackets.paired?('[({]})')
   end
 

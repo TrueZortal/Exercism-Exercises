@@ -7,12 +7,10 @@ class Brackets
   @@keys = @@hash_of_pairs_of_brackest.keys
   @@values = @@hash_of_pairs_of_brackest.values
 
-  # p @@hash_of_pairs_of_brackest['[']
-
   def self.paired?(string)
+    @check_nested = 0
     @brackets = @@keys + @@values
     @array_of_brackets =  string.chars.map {|x| @brackets.include?(x) ? x : ''}.reject(&:empty?)
-    # p @array_of_brackets
     if @array_of_brackets.size % 2 != 0
       return false
     else
@@ -20,16 +18,20 @@ class Brackets
         if @@values.include?(bracket)
           return false
         elsif @@keys.include?(bracket)
-          #match value and remove both from array
           inner_index = index
-          # p @array_of_brackets
+          @check_nested = 0
           index.upto(@array_of_brackets.size) do
             inner_index += 1
             if @@keys.include?(bracket) && @array_of_brackets[inner_index] == @@hash_of_pairs_of_brackest[bracket]
-              # p number_of_closing == number_of_opening
+              if @check_nested % 2 == 0
               @array_of_brackets[index] = 'X'
               @array_of_brackets[inner_index] = 'X'
               break
+              else
+                return false
+              end
+            else
+              @check_nested += 1
             end
           end
         end
@@ -39,18 +41,3 @@ class Brackets
     end
 
 end
-
-# Brackets.paired?('(((185 + 223.85) * 15) - 543)/2')
-
-Brackets.paired?('[({]})')
-
-#[] {} ()
-
-# Brackets.paired?('([{}({}[])])tomatosuperduper1231212heyhey')
-
-# Brackets.paired?('[]')
-
-# Brackets.paired?('{[]}')
-
-# Brackets.paired?('[[')
-# Brackets.paired?('([{}({}[])])')
