@@ -4,9 +4,6 @@ class RailFenceCipher
         @message = message.chars
         @array_of_rails = Array.new(rails) { [] }
         establish_code_pattern(rails)
-        # p @array_of_rails
-        # @array_of_rails[@encoding_pattern[1 % @encoding_pattern.size]] << 'x'
-        # p @array_of_rails[@encoding_pattern[1 % @encoding_pattern.size]] 
         @message.each_with_index do |char, index|
             @array_of_rails[@encoding_pattern[index % @encoding_pattern.size]] << char
         end
@@ -15,8 +12,21 @@ class RailFenceCipher
 
     def self.decode (cipher, cipherrails)
     @array_of_cipherrails = Array.new(cipherrails){ [] }
-    cipher != '' ? cipher.chars.each_slice(cipher.length/cipherrails).to_a.transpose.join : ''
-    
+    @cipher = cipher.chars
+    solution = String.new
+    decoding_pattern = []
+    establish_code_pattern(cipherrails)
+    @cipher.each_with_index do |char, index|
+        decoding_pattern << @encoding_pattern[index % @encoding_pattern.size]
+    end
+    decoding_pattern.sort.each_with_index do |char, index|
+        @array_of_cipherrails[char] << @cipher[index]  
+    end
+    decoding_pattern.each do |char|
+        solution << @array_of_cipherrails[char][0].to_s
+        @array_of_cipherrails[char].delete_at(0)
+    end
+    solution
     end
 
     def self.establish_code_pattern(number_of_rails)
@@ -24,20 +34,5 @@ class RailFenceCipher
         down = *(2..number_of_rails-1).to_a.reverse
         @encoding_pattern = up + down
         @encoding_pattern.map! { |x| x-1}
-        # p @encoding_pattern
     end
 end
-# RailFenceCipher.decode('XXXXXXXXXOOOOOOOOO', 2)
-# 1 2 3 4 5 6 7 8 9
-# 1 2 3 2 1 2 3 2 1
-
-# 1 2 3 4 5 6 7 8 9
-# 1 2 3 4 3 2 1 2 
-
-# THED EVIL ISIN THED ETAI LS
-# 1232 1232 1232 1232 1232 12
-# 1234 5678
-
-
-# THEDEVIL ISINTHED ETAILS
-# 12345432 12345432 123454
