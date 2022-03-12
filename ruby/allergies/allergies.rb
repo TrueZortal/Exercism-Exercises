@@ -1,5 +1,5 @@
 class Allergies
- @@Allergens = {
+ @@allergens = {
    1 =>'eggs',
    2 => 'peanuts',
    4 => 'shellfish',
@@ -11,14 +11,25 @@ class Allergies
  }
   def initialize(allergy_score)
     @allergy_score = allergy_score
-    
+    p @allergy_score
+    list_of_allergies
   end
 
-  def allergic_to(allergen)
+  def allergic_to?(allergen)
+    @list_of_allergies.include?(allergen)
   end
 
   def list_of_allergies
-    if @allergy_score
+    @list_of_allergies = []
+    if @allergy_score == 0
+      while @allergy_score > 0
+        p @allegry_score
+        @list_of_allergies << @@allergens[@allegry_score]
+        @allergy_score / 2 
+      end
+    end
+    @list_of_allergies
+    p @list_of_allergies
   end
 
 end

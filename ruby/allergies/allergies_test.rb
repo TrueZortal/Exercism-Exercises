@@ -12,7 +12,7 @@ class AllergiesTest < Minitest::Test
   end
 
   def test_is_allergic_to_eggs
-    skip
+    # skip
     allergies = Allergies.new(1)
     assert allergies.allergic_to?('eggs')
   end
