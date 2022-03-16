@@ -1,0 +1,28 @@
+{
+  "blurb": "Add the numbers to a minesweeper board",
+  "authors": [
+    "fluxusfrequency"
+  ],
+  "contributors": [
+    "abeger",
+    "budmc29",
+    "dkinzer",
+    "hilary",
+    "iHiD",
+    "Insti",
+    "kotp",
+    "kytrinyx",
+    "tryantwit"
+  ],
+  "files": {
+    "solution": [
+      "minesweeper.rb"
+    ],
+    "test": [
+      "minesweeper_test.rb"
+    ],
+    "example": [
+      ".meta/example.rb"
+    ]
+  }
+}
