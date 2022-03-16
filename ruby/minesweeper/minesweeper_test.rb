@@ -87,7 +87,7 @@ class MinesweeperTest < Minitest::Test
   end
 
   def test_invalid_char
-    skip
+    # skip
     inp = ['+-----+', '|X  * |', '+-----+']
     assert_raises(ArgumentError) do
       Board.transform(inp)
