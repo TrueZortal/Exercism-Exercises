@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Robot
   attr_reader :bearing, :coordinates
 
-  DIRECTIONS = {west: -1, north:+1, east: +1, south: -1}
+  DIRECTIONS = { west: -1, north: +1, east: +1, south: -1 }.freeze
 
   def initialize
     @bearing = nil
@@ -14,13 +16,13 @@ class Robot
     @bearing = direction
   end
 
-  def at(x,y)
+  def at(x, y)
     @coordinates = [x, y]
   end
 
   def axis
-    x = [0,2]
-    y = [1,3]
+    x = [0, 2]
+    y = [1, 3]
     if x.include?(DIRECTIONS.keys.index(@bearing))
       0
     else
@@ -33,14 +35,12 @@ class Robot
   end
 
   def turn_right
-    @bearing = DIRECTIONS.keys[(DIRECTIONS.keys.index(@bearing)+1) % 4]
-
+    @bearing = DIRECTIONS.keys[(DIRECTIONS.keys.index(@bearing) + 1) % 4]
   end
 
   def turn_left
-    @bearing = DIRECTIONS.keys[(DIRECTIONS.keys.index(@bearing)-1) % 4]
+    @bearing = DIRECTIONS.keys[(DIRECTIONS.keys.index(@bearing) - 1) % 4]
   end
-
 end
 
 class Simulator
@@ -48,7 +48,7 @@ class Simulator
     'L' => :turn_left,
     'R' => :turn_right,
     'A' => :advance
-  }
+  }.freeze
 
   def instructions(list_of_commands)
     @commands = list_of_commands.chars
@@ -61,7 +61,7 @@ class Simulator
 
   def place(robot, coordinates_and_bearing)
     robot.orient(coordinates_and_bearing[:direction])
-    robot.at(coordinates_and_bearing[:x],coordinates_and_bearing[:y])
+    robot.at(coordinates_and_bearing[:x], coordinates_and_bearing[:y])
   end
 
   def evaluate(robot, commands)
@@ -70,4 +70,3 @@ class Simulator
     end
   end
 end
-
