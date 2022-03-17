@@ -22,7 +22,7 @@ class SecretHandshake
     @decimal.reverse.each_with_index do |command, index|
       action = COMMANDS[command.to_i * (10**index)]
       if !action.nil? && index != 4
-        commands << COMMANDS[command.to_i * (10**index)]
+        commands << action
       elsif action == :reverse
         commands = commands.reverse
       end
