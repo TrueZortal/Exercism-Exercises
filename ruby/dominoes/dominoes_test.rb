@@ -22,25 +22,25 @@ class DominoesTest < Minitest::Test
   end
 
   def test_three_elements
-    skip
+    # skip
     dominoes = [[1, 2], [3, 1], [2, 3]]
     assert Dominoes.chain?(dominoes)
   end
 
   def test_can_reverse_dominoes
-    skip
+    # skip
     dominoes = [[1, 2], [1, 3], [2, 3]]
     assert Dominoes.chain?(dominoes)
   end
 
   def test_can_not_be_chained
-    skip
+    # skip
     dominoes = [[1, 2], [4, 1], [2, 3]]
     refute Dominoes.chain?(dominoes)
   end
 
   def test_disconnected_simple
-    skip
+    # skip
     dominoes = [[1, 1], [2, 2]]
     refute Dominoes.chain?(dominoes)
   end
