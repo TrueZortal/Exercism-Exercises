@@ -2,8 +2,9 @@ class Dominoes
   def self.chain?(input)
     @input = input
     convert
-    p @array_of_dominoes
-    p @bricks
+    p bricks
+    # p @array_of_dominoes
+    # p @bricks
     num = 0
     @array_of_dominoes.each_with_index do |domino,index|
       index.upto(@array_of_dominoes.size-1) do |loop_index|
@@ -13,21 +14,17 @@ class Dominoes
           # p "#{domino.right} is equal to #{@array_of_dominoes[loop_index].left}"
           break
         elsif domino.right != @array_of_dominoes[loop_index].left
-          p @array_of_dominoes[loop_index].brick
-          # p @array_of_dominoes[loop_index].left
-          # p @bricks
           @array_of_dominoes[loop_index].flip
-          # p @bricks
-          p @array_of_dominoes[loop_index].brick
-          # p @array_of_dominoes[loop_index].left
           if domino.right == @array_of_dominoes[loop_index].left
             # p "#{domino.right} is equal to #{@array_of_dominoes[loop_index].left}"
             break
+          else
+            @array_of_dominoes[loop_index].flip
           end
         end
       end
     end
-    p @bricks
+    p bricks
   end
 
   def self.convert
@@ -35,8 +32,12 @@ class Dominoes
     @input.each do |brick|
       @array_of_dominoes << DominoBrick.new(brick)
     end
+  end
+
+  def self.bricks
     @bricks = @array_of_dominoes.map {|x| x.brick}
   end
+
 end
 
 class DominoBrick
