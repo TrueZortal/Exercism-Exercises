@@ -33,18 +33,11 @@ class Dominoes
       end
     end
     check_chain
-    p check_chain
+    p matches
+    temp_array_777 = @matches
     @bricks.each_with_index do |brick, index|
-      matches = []
-      index.upto(@bricks.size-1) do |loop_index|
-        if brick[1] == @bricks[loop_index][0] && @bricks[index] != @bricks[loop_index]
-          matches << @bricks[loop_index]
-        end
-      end
-      p matches
-
+      p temp_array_777[index][brick][0]
     end
-    # a.insert(1,a.delete_at(3))
   end
 
   def self.convert
@@ -52,6 +45,20 @@ class Dominoes
     @input.each do |brick|
       @array_of_dominoes << DominoBrick.new(brick)
     end
+  end
+
+  def self.matches
+    @matches = []
+    @bricks.each_with_index do |brick, index|
+      matches = []
+      0.upto(@bricks.size-1) do |loop_index|
+        if brick[1] == @bricks[loop_index][0] && @bricks[index] != @bricks[loop_index]
+          matches << @bricks[loop_index]
+        end
+      end
+      @matches << {brick => matches}
+    end
+    @matches
   end
 
   def self.check_chain
