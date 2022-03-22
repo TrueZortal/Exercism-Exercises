@@ -41,7 +41,7 @@ class Dominoes
           matches << @bricks[loop_index]
         end
       end
-      if matches.size > 1
+      p matches
 
     end
     # a.insert(1,a.delete_at(3))
