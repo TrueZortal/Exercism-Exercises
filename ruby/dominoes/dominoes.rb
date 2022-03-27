@@ -2,28 +2,19 @@ class Dominoes
   def self.chain?(input)
     @input = input
     convert
-    # p @array_of_dominoes
-    # p @bricks
-    # p check_chain
 
     @array_of_dominoes.each_with_index do |domino,index|
       index.upto(@array_of_dominoes.size-1) do |loop_index|
-        # p loop_index
-        # p @array_of_dominoes[loop_index]
         if check_chain
           break
         elsif domino.right == @array_of_dominoes[loop_index].left
           if loop_index != (index+1 % @array_of_dominoes.size-1)
-            # p loop_index
-            # p index+1
-            # p "somehow this 1"
             @array_of_dominoes.insert(index+1,@array_of_dominoes.delete_at(loop_index))
           end
           break
         elsif domino.right != @array_of_dominoes[loop_index].left
           @array_of_dominoes[loop_index].flip
           if domino.right == @array_of_dominoes[loop_index].left
-            # p "somehow this"
             @array_of_dominoes.insert(index+1,@array_of_dominoes.delete_at(loop_index))
             break
           else
@@ -32,12 +23,41 @@ class Dominoes
         end
       end
     end
-    check_chain
-    # matches
-    # p @matches
-    # p @bricks
+    matches
+    check_chain ? true : solve
+
   end
 
+  def self.solve
+    solutions = []
+    0.upto(max_value_of_hash-1) do |x|
+      solution = []
+      solution << @bricks[0]
+      until solution.size == @bricks.size
+        if @matches[solution.last].nil?
+          break
+        elsif @matches[solution.last].size > 1
+          if solution.include?(@matches[solution.last][x])
+            solution << @matches[solution.last][x-1]
+          else
+            solution << @matches[solution.last][x]
+          end
+        else
+          solution << @matches[solution.last].flatten
+        end
+      end
+      solutions << solution
+    end
+    solutions.any? { |x| (@bricks - x).empty? }
+  end
+
+  def self.max_value_of_hash
+    max = []
+    @matches.each_value do |x|
+        max << x.size
+    end
+    max.max
+  end
 
   def self.convert
     @array_of_dominoes = []
@@ -61,7 +81,6 @@ class Dominoes
   end
 
   def self.check_chain
-    # p @array_of_dominoes
     @bricks = @array_of_dominoes.map {|x| x.brick}
     if @bricks.size > 1
       @bricks.flatten.first == @bricks.flatten.last && @bricks.all? {|x,y| x[1] == y[0]}
@@ -88,50 +107,3 @@ class DominoBrick
   end
 
 end
-
-
-
-# Dominoes.chain?([1,1])
-
-
-# class Dominoes
-#   def self.chain?(input)
-#     chain_size = input.size
-#     # p chain_size
-#     @input = input + input.map(&:reverse)
-#     # p @input
-#     results = []
-#     verification = []
-#     number = 0
-#     @input.combination(chain_size).to_a.reject! {|x| x.flatten.first != x.flatten.last}.each do |chain| #
-#       p chain
-#       number += 1
-#       chain.each_with_index do |elem, index|
-#        if elem == chain.last
-#           verification << elem
-#           if verification != chain
-#             verification = []
-#             next
-#           else
-#             results << chain
-#             verification = []
-#           end
-#         elsif elem[1] == chain[index+1][0]
-#           verification << elem
-#         end
-#       end
-#     end
-#     p results
-#     p number
-#     results == @input ? true : !results.empty?
-
-#     # correct_pairs = 0
-#     # @input.each_with_index do |domino, index|
-
-#   end
-# end
-
-# dominoes = [[1, 2], [2, 3], [3, 1], [1, 1], [2, 2], [3, 3]]
-dominoes = [[1, 2], [2, 3], [3, 1], [2, 4], [2, 4]]
-# dominoes = [[1, 2], [5, 3], [3, 1], [1, 2], [2, 4], [1, 6], [2, 3], [3, 4], [5, 6]]
-Dominoes.chain?(dominoes)

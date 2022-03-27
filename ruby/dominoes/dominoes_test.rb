@@ -64,13 +64,13 @@ class DominoesTest < Minitest::Test
   end
 
   def test_separate_loops
-    skip
+    # skip
     dominoes = [[1, 2], [2, 3], [3, 1], [1, 1], [2, 2], [3, 3]]
     assert Dominoes.chain?(dominoes)
   end
 
   def test_nine_elements
-    skip
+    # skip
     dominoes = [[1, 2], [5, 3], [3, 1], [1, 2], [2, 4], [1, 6], [2, 3], [3, 4], [5, 6]]
     assert Dominoes.chain?(dominoes)
   end
