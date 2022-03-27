@@ -33,12 +33,11 @@ class Dominoes
       end
     end
     check_chain
-    p matches
-    temp_array_777 = @matches
-    @bricks.each_with_index do |brick, index|
-      p temp_array_777[index][brick][0]
-    end
+    # matches
+    # p @matches
+    # p @bricks
   end
+
 
   def self.convert
     @array_of_dominoes = []
@@ -48,7 +47,7 @@ class Dominoes
   end
 
   def self.matches
-    @matches = []
+    @matches = {}
     @bricks.each_with_index do |brick, index|
       matches = []
       0.upto(@bricks.size-1) do |loop_index|
@@ -56,7 +55,7 @@ class Dominoes
           matches << @bricks[loop_index]
         end
       end
-      @matches << {brick => matches}
+      @matches[brick] = matches
     end
     @matches
   end
