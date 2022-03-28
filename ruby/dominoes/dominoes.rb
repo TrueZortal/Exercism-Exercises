@@ -2,39 +2,44 @@
 
 class Dominoes
   def self.chain?(input)
+    return true if input.empty?
     @input = input
     convert
-
-    @array_of_dominoes.each_with_index do |domino, index|
-      index.upto(@array_of_dominoes.size - 1) do |loop_index|
+    p @array_of_dominoes.show
+    @array_of_dominoes.show.each_with_index do |domino, index|
+      index.upto(@array_of_dominoes.show.size - 1) do |loop_index|
         if check_chain
           break
-        elsif domino.right == @array_of_dominoes[loop_index].left
-          if loop_index != (index + 1 % @array_of_dominoes.size - 1)
-            @array_of_dominoes.insert(index + 1, @array_of_dominoes.delete_at(loop_index))
+        elsif domino.right == @array_of_dominoes.show[loop_index].left
+          if loop_index != (index + 1 % @array_of_dominoes.show.size - 1)
+            @array_of_dominoes.show.insert(index + 1, @array_of_dominoes.show.delete_at(loop_index))
           end
           break
-        elsif domino.right != @array_of_dominoes[loop_index].left
-          @array_of_dominoes[loop_index].flip
-          if domino.right == @array_of_dominoes[loop_index].left
-            @array_of_dominoes.insert(index + 1, @array_of_dominoes.delete_at(loop_index))
+        elsif domino.right != @array_of_dominoes.show[loop_index].left
+          @array_of_dominoes.show[loop_index].flip
+          if domino_matches_next_domino(domino.right, @array_of_dominoes.show[loop_index].left)
+            @array_of_dominoes.show.insert(index + 1, @array_of_dominoes.show.delete_at(loop_index))
             break
           else
-            @array_of_dominoes[loop_index].flip
+            @array_of_dominoes.show[loop_index].flip
           end
         end
       end
     end
     matches
+    p @array_of_dominoes.show
     check_chain ? true : solve
+  end
+
+  def self.domino_matches_next_domino(domino1, domino2)
+    domino1 == domino2
   end
 
   def self.solve
     solutions = []
     0.upto(max_value_of_hash - 1) do |x|
-      solution = []
-      solution << @bricks[0]
-      until solution.size == @bricks.size
+      solution = [@array_of_dominoes.bricks[0]]
+      until solution.size == @array_of_dominoes.bricks.size
         if @matches[solution.last].nil?
           break
         elsif @matches[solution.last].size > 1
@@ -49,7 +54,7 @@ class Dominoes
       end
       solutions << solution
     end
-    solutions.any? { |x| (@bricks - x).empty? }
+    solutions.any? { |x| (@array_of_dominoes.bricks - x).empty? }
   end
 
   def self.max_value_of_hash
@@ -61,18 +66,15 @@ class Dominoes
   end
 
   def self.convert
-    @array_of_dominoes = []
-    @input.each do |brick|
-      @array_of_dominoes << DominoBrick.new(brick)
-    end
+    @array_of_dominoes = DominoSequence.new(@input)
   end
 
   def self.matches
     @matches = {}
-    @bricks.each_with_index do |brick, index|
+    @array_of_dominoes.bricks.each_with_index do |brick, index|
       matches = []
-      0.upto(@bricks.size - 1) do |loop_index|
-        matches << @bricks[loop_index] if brick[1] == @bricks[loop_index][0] && @bricks[index] != @bricks[loop_index]
+      0.upto(@array_of_dominoes.bricks.size - 1) do |loop_index|
+        matches << @array_of_dominoes.bricks[loop_index] if brick[1] == @array_of_dominoes.bricks[loop_index][0] && @array_of_dominoes.bricks[index] != @array_of_dominoes.bricks[loop_index]
       end
       @matches[brick] = matches
     end
@@ -80,27 +82,64 @@ class Dominoes
   end
 
   def self.check_chain
-    @bricks = @array_of_dominoes.map(&:brick)
-    if @bricks.size > 1
-      @bricks.flatten.first == @bricks.flatten.last && @bricks.all? { |x, y| x[1] == y[0] }
+    if @array_of_dominoes.size > 1
+      @array_of_dominoes.check_if_the_cycle_is_complete && @array_of_dominoes.check_if_order_is_correct
     else
-      @bricks.flatten.first == @bricks.flatten.last
+      @array_of_dominoes.check_if_the_cycle_is_complete
     end
   end
 end
 
+class DominoSequence < Array
+  def initialize(dominoes)
+    @array = []
+    dominoes.each do |brick|
+      @array << DominoBrick.new(brick)
+    end
+  end
+
+  def show
+    @array
+  end
+
+  def bricks
+    @array.map(&:brick)
+  end
+
+  def check_if_the_cycle_is_complete
+    @array.first.left == @array.last.right
+  end
+
+  def check_if_order_is_correct
+    bricks.all? { |x, y| x[1] == y[0] }
+  end
+
+  def size
+    @array.length
+  end
+end
+
 class DominoBrick
-  attr_reader :left, :right, :brick
+  attr_reader :brick
 
   def initialize(brick)
     @brick = brick
-    @left = @brick[0]
-    @right = @brick[1]
   end
 
   def flip
     @brick = @brick.reverse
-    @left = @brick[0]
-    @right = @brick[1]
   end
+
+  def left
+    @brick[0]
+  end
+
+  def right
+    @brick[1]
+  end
+
 end
+
+
+dominoes = [[1, 2], [1, 3], [2, 3]]
+Dominoes.chain?(dominoes)
