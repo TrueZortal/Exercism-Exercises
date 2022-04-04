@@ -8,7 +8,6 @@ module Dominoes
       @input = input
       convert
       @array_of_dominoes.solve
-      p @array_of_dominoes.solve
     end
 
     private
@@ -169,6 +168,3 @@ module Dominoes
   end
   private_constant :DominoBrick, :DominoSequence
 end
-
-# Dominoes::DominoBrick.new([1,2])
-Dominoes::DominoSequence.new([])
