@@ -3,94 +3,19 @@
 class Dominoes
   def self.chain?(input)
     return true if input.empty?
+
     @input = input
     convert
-    p @array_of_dominoes.show
-    @array_of_dominoes.show.each_with_index do |domino, index|
-      index.upto(@array_of_dominoes.show.size - 1) do |loop_index|
-        if check_chain
-          break
-        elsif domino.right == @array_of_dominoes.show[loop_index].left
-          if loop_index != (index + 1 % @array_of_dominoes.show.size - 1)
-            @array_of_dominoes.show.insert(index + 1, @array_of_dominoes.show.delete_at(loop_index))
-          end
-          break
-        elsif domino.right != @array_of_dominoes.show[loop_index].left
-          @array_of_dominoes.show[loop_index].flip
-          if domino_matches_next_domino(domino.right, @array_of_dominoes.show[loop_index].left)
-            @array_of_dominoes.show.insert(index + 1, @array_of_dominoes.show.delete_at(loop_index))
-            break
-          else
-            @array_of_dominoes.show[loop_index].flip
-          end
-        end
-      end
-    end
-    matches
-    p @array_of_dominoes.show
-    check_chain ? true : solve
-  end
-
-  def self.domino_matches_next_domino(domino1, domino2)
-    domino1 == domino2
-  end
-
-  def self.solve
-    solutions = []
-    0.upto(max_value_of_hash - 1) do |x|
-      solution = [@array_of_dominoes.bricks[0]]
-      until solution.size == @array_of_dominoes.bricks.size
-        if @matches[solution.last].nil?
-          break
-        elsif @matches[solution.last].size > 1
-          solution << if solution.include?(@matches[solution.last][x])
-                        @matches[solution.last][x - 1]
-                      else
-                        @matches[solution.last][x]
-                      end
-        else
-          solution << @matches[solution.last].flatten
-        end
-      end
-      solutions << solution
-    end
-    solutions.any? { |x| (@array_of_dominoes.bricks - x).empty? }
-  end
-
-  def self.max_value_of_hash
-    max = []
-    @matches.each_value do |x|
-      max << x.size
-    end
-    max.max
+    @array_of_dominoes.orient_all_bricks_correctly
+    @array_of_dominoes.solve
   end
 
   def self.convert
     @array_of_dominoes = DominoSequence.new(@input)
   end
-
-  def self.matches
-    @matches = {}
-    @array_of_dominoes.bricks.each_with_index do |brick, index|
-      matches = []
-      0.upto(@array_of_dominoes.bricks.size - 1) do |loop_index|
-        matches << @array_of_dominoes.bricks[loop_index] if brick[1] == @array_of_dominoes.bricks[loop_index][0] && @array_of_dominoes.bricks[index] != @array_of_dominoes.bricks[loop_index]
-      end
-      @matches[brick] = matches
-    end
-    @matches
-  end
-
-  def self.check_chain
-    if @array_of_dominoes.size > 1
-      @array_of_dominoes.check_if_the_cycle_is_complete && @array_of_dominoes.check_if_order_is_correct
-    else
-      @array_of_dominoes.check_if_the_cycle_is_complete
-    end
-  end
 end
 
-class DominoSequence < Array
+class DominoSequence
   def initialize(dominoes)
     @array = []
     dominoes.each do |brick|
@@ -106,16 +31,107 @@ class DominoSequence < Array
     @array.map(&:brick)
   end
 
+  def size
+    show.length
+  end
+
+  def max_index
+    size - 1
+  end
+
   def check_if_the_cycle_is_complete
-    @array.first.left == @array.last.right
+    show.first.left == show.last.right
   end
 
   def check_if_order_is_correct
     bricks.all? { |x, y| x[1] == y[0] }
   end
 
-  def size
-    @array.length
+  def domino_matches_next_domino(domino1, domino2)
+    domino1 == domino2
+  end
+
+  def flip_check_if_matches_other_and_insert_as_next_if_not_unflip_so_less_mess_at_index(checked_domino, index_of_checked_domino, single_brick_index)
+    show[single_brick_index].flip
+    if domino_matches_next_domino(checked_domino.right, show[single_brick_index].left)
+      insert_as_next(index_of_checked_domino, single_brick_index)
+    else
+      show[single_brick_index].flip
+    end
+  end
+
+  def insert_as_next(original_brick_index, moved_brick_index)
+    show.insert(original_brick_index + 1, show.delete_at(moved_brick_index))
+  end
+
+  def is_complete_with_just_flipping
+    if size > 1
+      check_if_the_cycle_is_complete && check_if_order_is_correct
+    else
+      check_if_the_cycle_is_complete
+    end
+  end
+
+  def orient_all_bricks_correctly
+    show.each_with_index do |domino, index|
+      index.upto(max_index) do |loop_index|
+        break if is_complete_with_just_flipping
+
+        if domino.matches(show[loop_index])
+          insert_as_next(index, loop_index) if loop_index != (index + 1 % size - 1)
+          break
+        else
+          flip_check_if_matches_other_and_insert_as_next_if_not_unflip_so_less_mess_at_index(domino, index, loop_index)
+        end
+      end
+    end
+  end
+
+  def generate_all_possible_matches_for_oriented_bricks
+    output_matches = {}
+    bricks.each_with_index do |brick, index|
+      local_matches = []
+      0.upto(size - 1) do |loop_index|
+        local_matches << bricks[loop_index] if brick[1] == bricks[loop_index][0] && bricks[index] != bricks[loop_index]
+      end
+      output_matches[brick] = local_matches
+    end
+    output_matches
+  end
+
+  def solve_for_the_array_of_correctly_oriented_dominoes
+    solutions = []
+    @matches = generate_all_possible_matches_for_oriented_bricks
+    0.upto(max_index_of_hash) do |x|
+      solution = [bricks[0]]
+      until solution.size == size
+        break if @matches[solution.last].nil?
+
+        solution << if @matches[solution.last].size > 1
+                      if solution.include?(@matches[solution.last][x])
+                        @matches[solution.last][x - 1]
+                      else
+                        @matches[solution.last][x]
+                      end
+                    else
+                      @matches[solution.last].flatten
+                    end
+      end
+      solutions << solution
+    end
+    solutions.any? { |x| (bricks - x).empty? }
+  end
+
+  def max_index_of_hash
+    max = []
+    generate_all_possible_matches_for_oriented_bricks.each_value do |x|
+      max << x.size
+    end
+    max.max - 1
+  end
+
+  def solve
+    is_complete_with_just_flipping ? true : solve_for_the_array_of_correctly_oriented_dominoes
   end
 end
 
@@ -138,8 +154,10 @@ class DominoBrick
     @brick[1]
   end
 
+  def matches(another_brick)
+    right == another_brick.left
+  end
 end
-
 
 dominoes = [[1, 2], [1, 3], [2, 3]]
 Dominoes.chain?(dominoes)
