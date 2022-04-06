@@ -12,7 +12,7 @@ class PigLatin
         def actually_translate(array)
             answer = String.new
             array.each do |elem|
-                p "#{elem} has a y ? #{has_a_y_after_a_block_of_consonants(elem)}"
+                # p "#{elem} has a y ? #{has_a_y_after_a_block_of_consonants?(elem)}"
                 if starts_with_vowel_sound?(elem)
                     has_more_than_1_elem(array) ? answer += "#{modify_for_vowel_start(elem)} " : answer += modify_for_vowel_start(elem)
                 elsif starts_with_consonant_sound?(elem)
@@ -38,9 +38,9 @@ class PigLatin
             string[1..2] == 'qu'
         end
 
-        def has_a_y_after_a_block_of_consonants(string)
+        def has_a_y_after_a_block_of_consonants?(string)
             return false if string.chars.none? {|x| x == 'y'} 
-            string[0..string.chars.find_index('y')]
+            string[0..string.chars.find_index('y')-1].chars.all? { |x| @@consonant_sounds.include?(x)}
         end
 
         def has_a_y_second_in_two_letter_word(string)
@@ -55,6 +55,14 @@ class PigLatin
             string += 'ay'
         end
 
+        def modify_for_y_second_in_two_letter_word(string)
+            string = 'y' + "#{string[0]}ay"
+        end
+
+        def modify_for_y_after_a_block_of_consonants(string)
+            string = string[string.chars.find_index('y')..string.length] + string[0..string.chars.find_index('y')-1] + 'ay'
+        end
+
         def modify_for_consonant_start(string)
             if @@consonant_sounds.include?(string[0..2])
                 string = string[3, string.size] + string[0..2] + 'ay'
@@ -66,9 +74,10 @@ class PigLatin
         end
 
         def modify_for_consonants(string)
-            # p "this for #{string}"
             if has_a_y_second_in_two_letter_word(string)
-
+                modify_for_y_second_in_two_letter_word(string)
+            elsif has_a_y_after_a_block_of_consonants?(string)
+                modify_for_y_after_a_block_of_consonants(string)
             elsif has_a_qu_after_a_consonant_start?(string)
                 modify_for_a_consonant_start_with_qu(string)
             else
