@@ -78,8 +78,8 @@ class PigLatin
     end
 
     def modify_for_consonants(string)
-    #   if y_second_in_two_letter_word?(string)
-    #     modify_for_y_second_in_two_letter_word(string)
+      if y_second_in_two_letter_word?(string)
+        modify_for_y_second_in_two_letter_word(string)
       if y_after_a_block_of_consonants?(string)
         modify_for_y_after_a_block_of_consonants(string)
       elsif qu_after_a_consonant_start?(string)
