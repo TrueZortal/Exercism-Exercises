@@ -3,7 +3,7 @@ class Element
     def initialize(data)
         @datum = data
         @next = nil
-        # @previous = nil
+        @previous = nil
     end
 end
 
@@ -23,7 +23,7 @@ class SimpleLinkedList
         else
             @array[@array.length-1].next = elem
             @array[@array.length] = elem
-            # elem.previous = @array
+            elem.previous = @array
         end
         self
     end
@@ -45,12 +45,14 @@ class SimpleLinkedList
     end
 
     def reverse!
-        @array = @array.reverse
-        # @array.each do |x|
-        #     temp = x.next
-        #     x.next = x.previous
-        #     x.next = temp
-        # end
+        array = []
+        @array.each do |x|
+            temp = x.next
+            x.next = x.previous
+            x.next = temp
+            array.unshift(x)
+        end
+        @array = array
         self
     end
 
