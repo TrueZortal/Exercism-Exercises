@@ -18,7 +18,7 @@ class Bst
     end
 
     def each
-        @start.nodes.map {|elem| elem.data}
+        
     end
 
     def insert(inserted_value)
@@ -49,16 +49,9 @@ end
 class Node
     attr_reader :data
     attr_accessor :left, :right
-    @@nodes = []
     def initialize(value)
         @data = value
         @left = nil
         @right = nil
-        @@nodes << value
-        p @@nodes
-    end
-
-    def nodes
-        @@nodes
     end
 end
