@@ -3,6 +3,7 @@ class Bst
 
     def initialize(initial_value)
         @start = Node.new(initial_value)
+        @current_node = @start
     end
 
     def data
@@ -18,31 +19,43 @@ class Bst
     end
 
     def each
+        array_of_datum = []
+        visited_nodes =[]
         
     end
 
     def insert(inserted_value)
-        if inserted_value > data
-            if @start.right.nil?
-                @start.right = Node.new(inserted_value)
+        set_current_node_to_a_valid_data_entry_point(inserted_value)
+        insert_in_the_right_branch(inserted_value)
+        reset_tree
+    end
+
+    private
+
+    def set_current_node_to_a_valid_data_entry_point(inserted_value)
+        until inserted_value > @current_node.data && @current_node.right.nil? || inserted_value <= @current_node.data && @current_node.left.nil?
+            if inserted_value > @current_node.data
+                p "moving from #{@current_node.data} to #{@current_node.right.data}"
+                @current_node = @current_node.right
             else
-                if inserted_value > @start.right.data
-                    @start.right.right = Node.new(inserted_value)
-                else
-                    @start.right.left = Node.new(inserted_value)
-                end
-            end
-        else
-            if @start.left.nil?
-                @start.left = Node.new(inserted_value)
-            else
-                if inserted_value > @start.left.data
-                    @start.left.right = Node.new(inserted_value)
-                else
-                    @start.left.left = Node.new(inserted_value)
-                end
+                p "moving from #{@current_node.data} to #{@current_node.left.data}"
+                @current_node = @current_node.left
             end
         end
+    end
+
+    def insert_in_the_right_branch(inserted_value)
+        if inserted_value > @current_node.data
+            p "inserting #{inserted_value} to the right of #{@current_node.data}"
+            @current_node.right = Node.new(inserted_value)
+        else
+            p "inserting #{inserted_value} to the left of #{@current_node.data}"
+            @current_node.left = Node.new(inserted_value)
+        end
+    end
+
+    def reset_tree
+        @current_node = @start
     end
 end
 
