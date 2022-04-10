@@ -4,6 +4,8 @@ class Bst
     def initialize(initial_value)
         @start = Node.new(initial_value)
         @current_node = @start
+        @size = 1
+        @all_nodes =[@start]
     end
 
     def data
@@ -19,8 +21,11 @@ class Bst
     end
 
     def each
-        array_of_datum = []
-        visited_nodes =[]
+        return to_enum(:each) unless block_given?
+        sort
+        @all_nodes.each do |node|
+            yield node.data
+        end
         
     end
 
@@ -32,13 +37,15 @@ class Bst
 
     private
 
+    def sort
+        @all_nodes.sort! {|a,b| a.data <=> b.data}
+    end
+
     def set_current_node_to_a_valid_data_entry_point(inserted_value)
         until inserted_value > @current_node.data && @current_node.right.nil? || inserted_value <= @current_node.data && @current_node.left.nil?
             if inserted_value > @current_node.data
-                p "moving from #{@current_node.data} to #{@current_node.right.data}"
                 @current_node = @current_node.right
             else
-                p "moving from #{@current_node.data} to #{@current_node.left.data}"
                 @current_node = @current_node.left
             end
         end
@@ -46,11 +53,13 @@ class Bst
 
     def insert_in_the_right_branch(inserted_value)
         if inserted_value > @current_node.data
-            p "inserting #{inserted_value} to the right of #{@current_node.data}"
             @current_node.right = Node.new(inserted_value)
+            @size += 1
+            @all_nodes << @current_node.right
         else
-            p "inserting #{inserted_value} to the left of #{@current_node.data}"
             @current_node.left = Node.new(inserted_value)
+            @size += 1
+            @all_nodes << @current_node.left
         end
     end
 
