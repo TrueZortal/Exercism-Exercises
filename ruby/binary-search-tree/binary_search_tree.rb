@@ -4,7 +4,6 @@ class Bst
   def initialize(initial_value)
     @start = Node.new(initial_value)
     @current_node = @start
-    @size = 1
     @all_nodes = [@start]
   end
 
@@ -54,11 +53,9 @@ class Bst
   def insert_in_the_right_branch(inserted_value)
     if inserted_value > @current_node.data
       @current_node.right = Node.new(inserted_value)
-      @size += 1
       @all_nodes << @current_node.right
     else
       @current_node.left = Node.new(inserted_value)
-      @size += 1
       @all_nodes << @current_node.left
     end
   end
