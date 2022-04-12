@@ -6,14 +6,14 @@ class Change
     until @amount == 0
       @possible_change = []
       check_for_coins_that_fit
-      @possible_change do |coin|
-        @amount % coin == 0
-      end
+      if @amount
+
     end
     @change
   end
-    def self.check_if_mod_0_of_any_remaining_coin(change)
-      @coins.select {|coin| change % coin == 0}
+
+    def self.check_for_largest_mod_0_of_any_remaining_coin(change)
+      @possible_change.select {|coin| change % coin == 0}.max
     end
 
     def self.check_for_coins_that_fit
