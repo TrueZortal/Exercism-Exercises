@@ -3,10 +3,16 @@ class Change
     @coins = coins.reverse
     @amount = amount
     @change = []
+    @possible_change = []
     until @amount == 0
-      @possible_change = []
       check_for_coins_that_fit
-      if @amount
+      @possible_change.each_with_index do |coin, index|
+      if @amount - coin >= 0
+        @amount -= coin
+        @change.unshift(coin)
+        break
+      end
+    end
 
     end
     @change
