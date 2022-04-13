@@ -7,7 +7,9 @@ class Change
     until @amount == 0
       check_for_coins_that_fit
       @possible_change.each_with_index do |coin, index|
-      if @amount - coin >= 0
+      if @amount - coin >= 0 #&& @possible_change.any? {|x| @amount - coin % x == 0}
+        p @amount - coin
+        p @possible_change.select {|x| @amount - coin % x == 0}
         @amount -= coin
         @change.unshift(coin)
         break
