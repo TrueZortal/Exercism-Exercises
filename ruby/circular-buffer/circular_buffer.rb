@@ -17,7 +17,6 @@ class CircularBuffer
     @buffer.each do |storage|
       if storage.empty?
         storage << Element.new(elem)
-        p "wrote #{storage[0].value} in, current state is #{@buffer}"
       else
         next
       end
@@ -47,7 +46,6 @@ class CircularBuffer
       end
       break
     end
-    p "reading out #{result} in, current state is #{@buffer}"
     result
   end
 
@@ -56,8 +54,9 @@ class CircularBuffer
     1.upto(@cells) do
       @buffer << []
     end
-    p "cleared current state is #{@buffer}"
   end
+
+  private
 
   def sort_by_time
     empties = @buffer.select {|x| x.empty?}
