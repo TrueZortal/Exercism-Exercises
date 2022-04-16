@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 class CustomSet
   attr_reader :set
 
   def initialize(set = [])
     @set = set
-
   end
 
   def empty?
@@ -27,7 +28,7 @@ class CustomSet
   end
 
   def intersection(another_set)
-    CustomSet.new(another_set.set.select {|element| @set.include?(element)})
+    CustomSet.new(another_set.set.select { |element| @set.include?(element) })
   end
 
   def difference(another_set)
@@ -42,16 +43,14 @@ class CustomSet
   end
 
   def union(another_set)
-    temp = set
     another_set.set.each do |element|
       add(element)
     end
-    return CustomSet.new(@set)
-    set = temp
+    CustomSet.new(@set)
   end
 
   def add(elem)
-    if !set.include?(elem)
+    unless set.include?(elem)
       set << elem
       set.sort
     end
@@ -60,11 +59,9 @@ class CustomSet
 
   def ==(other)
     if other.class == self.class
-      other.set.sort == self.set.sort
+      other.set.sort == set.sort
     else
       false
     end
   end
-
 end
-
