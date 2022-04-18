@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class House
   def self.recite
     lines = [
@@ -17,17 +19,14 @@ class House
 
     rhyme = String.new
 
-    0.upto(lines.size-1) do |line_number|
+    0.upto(lines.size - 1) do |line_number|
       rhyme << "This is #{lines[line_number][1]}\n"
-      the_rest =  (0..line_number-1).to_a.reverse
+      the_rest = (0..line_number - 1).to_a.reverse
       the_rest.each do |remaining_line|
-         rhyme << "that #{lines[remaining_line][0]} #{lines[remaining_line][1]}\n"
+        rhyme << "that #{lines[remaining_line][0]} #{lines[remaining_line][1]}\n"
       end
-      if line_number != lines.size-1
-        rhyme << "\n"
-      end
+      rhyme << "\n" if line_number != lines.size - 1
     end
     rhyme
   end
 end
-
