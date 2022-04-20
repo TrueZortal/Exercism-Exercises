@@ -5,13 +5,14 @@ class PokerTest < Minitest::Test
   # rubocop:disable Naming/VariableNumber
 
   def test_one_hand
+    # skip
     high_of_jack = %w[4S 5S 7H 8D JC]
     game = Poker.new([high_of_jack])
     assert_equal [high_of_jack], game.best_hand
   end
 
   def test_highest_card
-    skip
+    # skip
     high_of_8 = %w[4S 5H 6S 8D 2H]
     high_of_queen = %w[2S 4H 6C 9D QH]
     game = Poker.new([high_of_8, high_of_queen])
@@ -19,7 +20,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_highest_card_10
-    skip
+    # skip
     high_of_8 = %w[4D 5S 6S 8D 3C]
     high_of_10 = %w[2S 4C 7S 9H 10H]
     game = Poker.new([high_of_8, high_of_10])
@@ -27,7 +28,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_nothing_vs_one_pair
-    skip
+    # skip
     high_of_king = %w[4S 5H 6C 8D KH]
     pair_of_4 = %w[2S 4H 6S 4D JH]
     game = Poker.new([high_of_king, pair_of_4])
@@ -35,7 +36,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_two_pair
-    skip
+    # skip
     pair_of_2 = %w[4S 2H 6S 2D JH]
     pair_of_4 = %w[2S 4H 6C 4D JD]
     game = Poker.new([pair_of_2, pair_of_4])
@@ -43,7 +44,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_one_pair_vs_double_pair
-    skip
+    # skip
     pair_of_8 = %w[2S 8H 6S 8D JH]
     fives_and_fours = %w[4S 5H 4C 8C 5C]
     game = Poker.new([pair_of_8, fives_and_fours])
@@ -51,7 +52,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_two_double_pair
-    skip
+    # skip
     eights_and_twos = %w[2S 8H 2D 8D 3H]
     fives_and_fours = %w[4S 5H 4C 8S 5D]
     game = Poker.new([eights_and_twos, fives_and_fours])
@@ -59,7 +60,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_another_two_double_pair
-    skip
+    # skip
     aces_and_twos = %w[2S AH 2C AD JH]
     queens_and_jacks = %w[JD QH JS 8D QC]
     game = Poker.new([aces_and_twos, queens_and_jacks])
@@ -67,7 +68,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_double_pair_vs_three
-    skip
+    # skip
     eights_and_twos = %w[2S 8H 2H 8D JH]
     three_of_4 = %w[4S 5H 4C 8S 4H]
     game = Poker.new([eights_and_twos, three_of_4])
@@ -75,7 +76,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_two_three
-    skip
+    # skip
     three_twos = %w[2S 2H 2C 8D JH]
     three_aces = %w[4S AH AS 8C AD]
     game = Poker.new([three_twos, three_aces])
@@ -83,7 +84,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_three_vs_straight
-    skip
+    # skip
     three_of_4 = %w[4S 5H 4C 8D 4H]
     straight = %w[3S 4D 2S 6D 5C]
     game = Poker.new([three_of_4, straight])
@@ -91,7 +92,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_a_5_high_straight
-    skip
+    # skip
     three_of_4 = %w[4S 5H 4C 8D 4H]
     straight_to_5 = %w[4D AH 3S 2D 5C]
     game = Poker.new([three_of_4, straight_to_5])
@@ -99,7 +100,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_two_straights
-    skip
+    # skip
     straight_to_8 = %w[4S 6C 7S 8D 5H]
     straight_to_9 = %w[5S 7H 8S 9D 6H]
     game = Poker.new([straight_to_8, straight_to_9])
@@ -115,7 +116,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_straight_vs_flush
-    skip
+    # skip
     straight_to_8 = %w[4C 6H 7D 8D 5H]
     flush_to_7 = %w[2S 4S 5S 6S 7S]
     game = Poker.new([straight_to_8, flush_to_7])
@@ -123,7 +124,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_two_flushes
-    skip
+    # skip
     flush_to_8 = %w[3H 6H 7H 8H 5H]
     flush_to_7 = %w[2S 4S 5S 6S 7S]
     game = Poker.new([flush_to_8, flush_to_7])
