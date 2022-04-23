@@ -24,7 +24,6 @@ end
     end
 
     def figures(hand)
-      hand
       figures = hand.map {|card| card[0...-1]}
       convert_to_numbers(figures)
     end
@@ -40,33 +39,30 @@ end
     end
 
     def sequential?(hand)
-      test = []
-      if hand.any?('14')
+      @test = []
+      if hand.any?('14') && hand.include?('2')
         hand = hand.map(&:to_i).sort
         hand.pop
         hand.unshift(1)
-        hand.each_with_index do |x, index|
-          if (index + 2) > hand.size
-            test << true
-          else
-            test << ((x + 1) == hand[index + 1])
-          end
-        end
+        check_sequence_output_array_of_bools(hand, @test)
       else
-        hand.map(&:to_i).sort.each_with_index do |x, index|
-          if (index + 2) > hand.size
-            test << true
-          else
-            test << ((x + 1) == hand[index + 1])
-          end
-        end
+        check_sequence_output_array_of_bools(hand, @test)
       end
-      if test.all?(true)
+      return false if !@test.all?(true)
+
         @max_valid_card = hand.max
         true
-      else
-        false
+    end
+
+    def check_sequence_output_array_of_bools(tested_array, returned_array)
+      tested_array.map(&:to_i).sort.each_with_index do |x, index|
+        if (index + 2) > tested_array.size
+          returned_array << true
+        else
+          returned_array << ((x + 1) == tested_array[index + 1])
+        end
       end
+      tested_array
     end
 
     def same_suit?(hand)
