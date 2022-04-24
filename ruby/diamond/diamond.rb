@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Diamond
   def self.make_diamond(letter)
     @letters = *('A'..letter)
@@ -10,7 +12,7 @@ class Diamond
     end
     @index -= 1
     @letters[0..@index].reverse.each do |letter|
-      break if @index < 0
+      break if @index.negative?
 
       answer << "#{outer(@index)}#{inner(letter, @index)}#{outer(@index)}\n"
       @index -= 1
@@ -18,15 +20,11 @@ class Diamond
     answer
   end
 
-  private
-
   def self.outer(value)
     @space_or_other_char_if_needed * (@offset - value)
   end
 
   def self.inner(value, index)
-    value == 'A' ? value : "#{value}#{@space_or_other_char_if_needed * ((index * 2)-1)}#{value}"
+    value == 'A' ? value : "#{value}#{@space_or_other_char_if_needed * ((index * 2) - 1)}#{value}"
   end
 end
-
-
