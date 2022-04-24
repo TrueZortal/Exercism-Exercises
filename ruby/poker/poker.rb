@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Poker
   attr_reader :hands
 
@@ -14,10 +12,14 @@ class Poker
   def best_hand
     return [@hands[0].cards_in_hand] if @hands.size == 1
 
-    # p @hands
+    check_for_best_hands(@hands)
+  end
+
+  private
+
+  def check_for_best_hands(array_of_hands)
     array_of_best_hands = []
     @hands.sort_by! { |hand| [-hand.how_good, -hand.max_valid_card] }
-
     @hands.each do |hand|
       if array_of_best_hands.empty? || hand.how_good == array_of_best_hands[0].how_good && hand.max_valid_card == array_of_best_hands[0].max_valid_card && hand.secondary_deciding_figure == array_of_best_hands[0].secondary_deciding_figure
         array_of_best_hands << hand
@@ -28,7 +30,6 @@ class Poker
     array_of_best_hands.map(&:cards_in_hand)
   end
 
-  # class Hand, takes a set of 5 cards, attributes: card_list, how_good, max_valid_card
   class Hand
     attr_reader :cards_in_hand, :max_valid_card, :how_good, :secondary_deciding_figure
 
@@ -39,15 +40,10 @@ class Poker
       @max_valid_card = nil
       @how_good = nil
       @secondary_deciding_figure = nil
-      # @figures_in_hand = figures(@cards_in_hand)
-      # p cards_in_hand
-      # # p @figures_in_hand
-      # p sequential?(@cards_in_hand)
-      # p sequential?(@figures_in_hand)
-      # same_suit?(@cards_in_hand)
-      # find_type_of_multiple_or_lack_thereof_hand_goodness_and_max_card(@figures_in_hand)
       assign_hand_value(@cards_in_hand)
     end
+
+    private
 
     def figures(hand)
       convert_to_numbers(hand.map { |card| card[0...-1] })
@@ -78,12 +74,12 @@ class Poker
       end
     end
 
-    #returns bool
+
     def sequential?(figures_in_hand)
       temp_hand = figures(figures_in_hand)
       @test = []
       if temp_hand.any?('14') && temp_hand.include?('2')
-        temp_hand = temp_hand.map(&:to_i).sort #what the fuck? map! doesnt work assignment to a map does -.-
+        temp_hand = temp_hand.map(&:to_i).sort
         temp_hand.pop
         temp_hand.unshift(1)
       end
@@ -106,12 +102,10 @@ class Poker
       temp_tested_array
     end
 
-    #returns bool
     def same_suit?(hand)
       hand.map { |card| card[-1...card.length] }.uniq.length == 1
     end
 
-    # takes figures in hand, returns number of cards with multiples and values as hash {card => #ofcard, card2 => #ofcard2}
     def find_multiples?(figures_in_hand)
       unique_cards = figures_in_hand.uniq
       multiples = Hash.new
@@ -156,22 +150,22 @@ class Poker
   end
 end
 
-# Straight flush = sequential 5 in same colour x 8 sequential + suit
-# Four of a kind x 7 multiples
-# Full House 2+3 figures 6
-# Flush 5 of same suit x 5
-# Straight 5 sequential x 4
-# Three of a kind x 3
-# Two pair 2+2 x 2
-# One pair 2 x 1
-# High card 0
 
-# is sequential?
-# is same suit?
-# find_multiples?
 
-# test = Poker.new(%w[4S 5S 7H 8D JC])
-# # test = Poker.new(%w[2S 4S 3H AC 5D])
-# # test = Poker.new(%w[10S JS QH AC KD])
-# test = Poker.new([%w[5H 5S 5D 8S 8D]])
-# p test.hands
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
