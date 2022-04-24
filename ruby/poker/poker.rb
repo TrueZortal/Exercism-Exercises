@@ -15,10 +15,17 @@ class Poker
     return [@hands[0].cards_in_hand] if @hands.size == 1
 
     # p @hands
+    array_of_best_hands = []
     @hands.sort_by! { |hand| [-hand.how_good, -hand.max_valid_card] }
-    # p @hands
-    # @hands.sort_by {|hand1, hand2| hand1.how_good <=> hand2.how_good}
-    [@hands[0].cards_in_hand]
+
+    @hands.each do |hand|
+      if array_of_best_hands.empty? || hand.how_good == array_of_best_hands[0].how_good && hand.max_valid_card == array_of_best_hands[0].max_valid_card && hand.secondary_deciding_figure == array_of_best_hands[0].secondary_deciding_figure
+        array_of_best_hands << hand
+      else
+        break
+      end
+    end
+    array_of_best_hands.map(&:cards_in_hand)
   end
 
   # class Hand, takes a set of 5 cards, attributes: card_list, how_good, max_valid_card
