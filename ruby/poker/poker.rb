@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Poker
   attr_reader :hands
 
@@ -17,7 +19,7 @@ class Poker
 
   private
 
-  def check_for_best_hands(array_of_hands)
+  def check_for_best_hands(_array_of_hands)
     array_of_best_hands = []
     @hands.sort_by! { |hand| [-hand.how_good, -hand.max_valid_card] }
     @hands.each do |hand|
@@ -74,7 +76,6 @@ class Poker
       end
     end
 
-
     def sequential?(figures_in_hand)
       temp_hand = figures(figures_in_hand)
       @test = []
@@ -108,7 +109,7 @@ class Poker
 
     def find_multiples?(figures_in_hand)
       unique_cards = figures_in_hand.uniq
-      multiples = Hash.new
+      multiples = {}
       unique_cards.each do |unique_card|
         multiples[unique_card] = figures_in_hand.count(unique_card)
       end
@@ -123,49 +124,26 @@ class Poker
         @secondary_deciding_figure = figures_in_hand.map(&:to_i).min
         @how_good = 0
       elsif pairs_or_lack_thereof.size == 1
+        @how_good = case pairs_or_lack_thereof.values.max
+                    when 2
+                      1
+                    when 3
+                      3
+                    else
+                      7
+                    end
+        @max_valid_card = pairs_or_lack_thereof.keys.map(&:to_i).max
+      elsif pairs_or_lack_thereof.size == 2
         if pairs_or_lack_thereof.values.max == 2
-          @how_good = 1
+          @how_good = 2
           @max_valid_card = pairs_or_lack_thereof.keys.map(&:to_i).max
-        elsif pairs_or_lack_thereof.values.max == 3
-          @how_good = 3
-          @max_valid_card = pairs_or_lack_thereof.keys.map(&:to_i).max
+          @secondary_deciding_figure = pairs_or_lack_thereof.keys.map(&:to_i).min
         else
-          @how_good = 7
-          @max_valid_card = pairs_or_lack_thereof.keys.map(&:to_i).max
-        end
-      else
-        if pairs_or_lack_thereof.size == 2
-          if pairs_or_lack_thereof.values.max == 2
-            @how_good = 2
-            @max_valid_card = pairs_or_lack_thereof.keys.map(&:to_i).max
-            @secondary_deciding_figure = pairs_or_lack_thereof.keys.map(&:to_i).min
-          else
-            @how_good = 5
-            @max_valid_card = pairs_or_lack_thereof.key(3).to_i
-            @secondary_deciding_figure = pairs_or_lack_thereof.key(2).to_i
-          end
+          @how_good = 5
+          @max_valid_card = pairs_or_lack_thereof.key(3).to_i
+          @secondary_deciding_figure = pairs_or_lack_thereof.key(2).to_i
         end
       end
     end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
