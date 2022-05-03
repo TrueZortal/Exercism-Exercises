@@ -1,0 +1,32 @@
+{
+  "blurb": "Score a bowling game",
+  "authors": [
+    "bernardoamc"
+  ],
+  "contributors": [
+    "budmc29",
+    "cadwallion",
+    "gchan",
+    "hilary",
+    "iHiD",
+    "Insti",
+    "jpotts244",
+    "kotp",
+    "kytrinyx",
+    "NeimadTL",
+    "tryantwit"
+  ],
+  "files": {
+    "solution": [
+      "bowling.rb"
+    ],
+    "test": [
+      "bowling_test.rb"
+    ],
+    "example": [
+      ".meta/example.rb"
+    ]
+  },
+  "source": "The Bowling Game Kata at but UncleBob",
+  "source_url": "http://butunclebob.com/ArticleS.UncleBob.TheBowlingGameKata"
+}
