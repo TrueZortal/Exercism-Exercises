@@ -1,41 +1,65 @@
 class Game
   def initialize
-    @score = []
+    @array_of_turns = []
   end
 
-  def roll(pin)
-    @score << pin.to_i
+  def roll(pins)
+    if @array_of_turns.empty?
+      @array_of_turns << Turn.new(pins)
+    elsif @array_of_turns.last.incomplete
+      @array_of_turns.last.add_roll(pins)
+    else
+      @array_of_turns << Turn.new(pins)
+    end
   end
 
   def score
-    strike_storage = []
-    @score.each_with_index do |roll, index|
-      strike_storage << [@score.delete_at(index), index] if roll == 10
+    p @array_of_turns
+    @array_of_turns.map {|turn| turn.score}.reduce(&:+)
+  end
+
+  class Turn
+    attr_accessor :rolls, :multiplier_self, :multiplier_next
+    def initialize(score)
+      @rolls = []
+      add_roll(score)
+      #multiplier of 0 for 0 rolls
+      @multiplier_self = [[1, 0]]
+      @multiplier_next = [[1, 0]]
+
     end
 
-    rolls = @score.each_slice(2).to_a
-    strike_storage.each do |strike|
-      rolls.insert(strike[1],[strike[0]])
+    def incomplete
+      @rolls.size != 2 || @rolls.reduce(&:+) != 10
     end
 
-    # p rolls
-    scores = []
-    rolls.each_with_index do |roll, index|
-        if rolls[index-1].sum == 10 &&  rolls[index-1].size == 1 && rolls[index-2].sum == 10 &&  rolls[index-2].size == 1
-          p 'this'
-          scores << roll.reduce(&:+) * 3
-        elsif rolls[index-1].sum == 10 &&  rolls[index-1].size == 1
-          p 'this'
-          scores << roll.reduce(&:+) * 2
-        elsif rolls[index-1].sum == 10 && index > 9
-          scores << roll.reduce(&:+)
-        elsif rolls[index-1].sum == 10
-          scores << [roll[0] * 2, roll[1]].reduce(&:+)
-        else
-          scores << roll.reduce(&:+)
+    def add_roll(score)
+      @rolls << score
+      @raw_score = @rolls.reduce(&:+)
+      if @raw_score == 10 && @rolls.size == 1
+        @multiplier_next[0][0] += 1
+        @multiplier_next[0][1] += 2
+      elsif @raw_score == 10 && @rolls.size == 2
+        @multiplier_next[0][0] += 1
+        @multiplier_next[0][1] += 1
+      end
+    end
+
+    def score
+      @score = 0
+      if @multiplier_self[0] == 0
+        @score = @rolls.reduce(&:+)
+      else
+        @rolls.each do |roll|
+          if @multiplier_self[0][1] != 0
+            @score += roll * @multiplier_self[0][0]
+            @multiplier_self[0][1] -= 1
+          else
+            @score += roll
+          end
         end
       end
-      # p scores
-    scores.reduce(&:+)
+      @score
+    end
   end
 end
