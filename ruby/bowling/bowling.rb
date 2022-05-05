@@ -30,7 +30,7 @@ class Game
     end
 
     def incomplete
-      @rolls.size != 2 || @rolls.reduce(&:+) != 10
+      @rolls.size != 2
     end
 
     def add_roll(score)
@@ -63,3 +63,8 @@ class Game
     end
   end
 end
+
+game = Game.new
+    rolls = [6, 4, 3, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    rolls.each { |pins| game.roll(pins) }
+    game.score
