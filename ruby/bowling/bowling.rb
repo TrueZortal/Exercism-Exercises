@@ -1,5 +1,6 @@
-class Game
+# frozen_string_literal: true
 
+class Game
   class BowlingError < StandardError
   end
 
@@ -8,8 +9,20 @@ class Game
   end
 
   def roll(pins)
-    raise BowlingError if pins < 0 || pins > 10 || no_extra_rolls
+    raise BowlingError if pins.negative? || pins > 10 || no_extra_rolls
 
+    add_roll_or_create_new_turn(pins)
+  end
+
+  def score
+    raise BowlingError if game_hasnt_been_completed
+
+    calculate_the_score
+  end
+
+  private
+
+  def add_roll_or_create_new_turn(pins)
     if @array_of_turns.empty?
       @array_of_turns << Turn.new(pins)
     elsif @array_of_turns.last.incomplete
@@ -22,62 +35,87 @@ class Game
   def no_extra_rolls
     return false if @array_of_turns.size < 10
 
-    if @array_of_turns[9].strike? || @array_of_turns[9].spare?
-      if @array_of_turns.size == 11 && @array_of_turns[9].spare?
-        @array_of_turns.last.rolls.size == 1
-      elsif @array_of_turns.size == 11 && @array_of_turns[9].strike?
-        @array_of_turns.last.rolls.size == 2 || @array_of_turns[10].strike? && @array_of_turns.size == 12
-      end
+    if last_standard_turn_is_a_strike_or_spare
+      block_additonal_rolls_for_strikes_and_spares
     else
-      @array_of_turns.size == 10 && !@array_of_turns.last.incomplete
+      block_additional_rolls_for_a_completed_frame
     end
   end
 
+  def block_additonal_rolls_for_strikes_and_spares
+    if @array_of_turns.size == 11 && @array_of_turns[9].spare?
+      @array_of_turns.last.rolls.size == 1
+    elsif @array_of_turns.size >= 11 && @array_of_turns[9].strike?
+      complete_game_after_a_strike_in_standard_final_round
+    end
+  end
+
+  def complete_game_after_a_strike_in_standard_final_round
+    @array_of_turns.last.rolls.size == 2 || @array_of_turns[10].strike? && @array_of_turns.size == 12
+  end
+
+  def block_additional_rolls_for_a_completed_frame
+    @array_of_turns.size == 10 && !@array_of_turns.last.incomplete
+  end
+
+  def last_standard_turn_is_a_strike_or_spare
+    @array_of_turns[9].strike? || @array_of_turns[9].spare?
+  end
+
   def game_hasnt_been_completed
-    @array_of_turns.empty? ||
-    @array_of_turns.size < 10 ||
-    @array_of_turns[9].strike? && @array_of_turns.size < 12 && @array_of_turns[10].strike?
+    (@array_of_turns.size == 10 && last_standard_turn_is_a_strike_or_spare) ||
+      @array_of_turns.empty? ||
+      @array_of_turns.size < 10 ||
+      @array_of_turns[9].strike? && @array_of_turns.size < 12 && @array_of_turns[10].strike?
   end
 
-  def game_has_been_completed
-    @array_of_turns.size == 10 &&  (@array_of_turns[9].strike? || @array_of_turns[9].spare?)
-  end
-
-  def score
-    raise BowlingError if  game_has_been_completed || game_hasnt_been_completed
-
+  def calculate_the_score
     @end_results = []
     @array_of_turns.each_with_index do |turn, index|
-      if index == 0
-        @end_results << turn.raw_score
-      elsif index > 9
-        @end_results << turn.raw_score
-      elsif @array_of_turns[index-1].spare?
-        if turn.strike?
-          @end_results << turn.raw_score * 2
-        else
-          @end_results << (turn.rolls[0] * 2 + turn.rolls[1])
-        end
-      elsif @array_of_turns[index-1].strike?
-        if @array_of_turns[index-2].strike?
-          if turn.strike?
-            @end_results << (turn.raw_score * 3)
-          else
-            @end_results << (turn.rolls[0] * 3 + turn.rolls[1] * 2)
-          end
-        else
-          @end_results << (turn.raw_score * 2)
-        end
-      else
-        @end_results << turn.raw_score
-      end
+      @end_results << if index.zero? || index > 9
+                        turn.raw_score
+                      elsif last_turn_was_spare?(index)
+                        scoring_logic_for_spares(turn)
+                      elsif last_turn_was_strike?(index)
+                        scoring_logic_for_strikes(turn, index)
+                      else
+                        turn.raw_score
+                      end
     end
     @end_results.reduce(&:+)
   end
 
-  class Turn
+  def last_turn_was_strike?(index)
+    @array_of_turns[index - 1].strike?
+  end
 
+  def last_turn_was_spare?(index)
+    @array_of_turns[index - 1].spare?
+  end
+
+  def scoring_logic_for_strikes(turn, index)
+    if @array_of_turns[index - 2].strike?
+      if turn.strike?
+        (turn.raw_score * 3)
+      else
+        (turn.rolls[0] * 3 + turn.rolls[1] * 2)
+      end
+    else
+      (turn.raw_score * 2)
+    end
+  end
+
+  def scoring_logic_for_spares(turn)
+    if turn.strike?
+      turn.raw_score * 2
+    else
+      (turn.rolls[0] * 2 + turn.rolls[1])
+    end
+  end
+
+  class Turn
     attr_accessor :rolls
+
     def initialize(pins_struck)
       @rolls = []
       add_roll(pins_struck)
@@ -105,4 +143,6 @@ class Game
       raw_score == 10 && @rolls.size == 2
     end
   end
+
+  private_constant :Turn
 end
