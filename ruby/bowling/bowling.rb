@@ -9,7 +9,6 @@ class Game
 
   def roll(pins)
     raise BowlingError if pins < 0 || pins > 10 || no_extra_rolls
-    # p @array_of_turns.empty? ? "empty" : "the game has had #{@array_of_turns.size} frames, score of the last frame was #{@array_of_turns.last.raw_score} and the current frame has been completed: #{!@array_of_turns.last.incomplete}"
     # p @array_of_turns.size
     if @array_of_turns.empty?
       @array_of_turns << Turn.new(pins)
@@ -18,21 +17,40 @@ class Game
     else
       @array_of_turns << Turn.new(pins)
     end
+    # p @array_of_turns.empty? ? "empty" : "the game has had #{@array_of_turns.size} frames, score of the last frame was #{@array_of_turns.last.raw_score} and the current frame has been completed: #{!@array_of_turns.last.incomplete}"
   end
 
   def no_extra_rolls
     return false if @array_of_turns.size < 10
 
     if @array_of_turns[9].strike? || @array_of_turns[9].spare?
-      false
+      if @array_of_turns.size == 11 && @array_of_turns[9].spare?
+        @array_of_turns.last.rolls.size == 1
+      elsif @array_of_turns.size == 11 && @array_of_turns[9].strike?
+        @array_of_turns.last.rolls.size == 2 || @array_of_turns[10].strike? && @array_of_turns.size == 12
+      end
     else
       @array_of_turns.size == 10 && !@array_of_turns.last.incomplete
     end
   end
 
-  def score
-    raise BowlingError if @array_of_turns.empty? || @array_of_turns.size < 10 || @array_of_turns.size == 10 &&  (@array_of_turns[9].strike? || @array_of_turns[9].spare?)
+  def game_hasnt_been_completed
+    @array_of_turns.empty? ||
+    @array_of_turns.size < 10 ||
+    @array_of_turns[9].strike? && @array_of_turns.size < 12 && @array_of_turns[10].strike?
+    # ||
+    # @array_of_turns[9].strike? && @array_of_turns.size == 11 &&
+  end
 
+  def game_has_been_completed
+    @array_of_turns.size == 10 &&  (@array_of_turns[9].strike? || @array_of_turns[9].spare?)
+  end
+
+  def score
+    raise BowlingError if  game_has_been_completed || game_hasnt_been_completed
+    # p @array_of_turns[9].strike? && (@array_of_turns.size < 11 && @array_of_turns.last.rolls.size != 2 || @array_of_turns.size < 12 && @array_of_turns.last.strike?)
+
+    # p @array_of_turns
     @end_results = []
     @array_of_turns.each_with_index do |turn, index|
       if index == 0
@@ -61,7 +79,7 @@ class Game
     end
     # p @array_of_turns.map { |x| x.spare?}
     # p @array_of_turns.map { |x| x.strike?}
-    # p @end_results
+    p @end_results
     # p @array_of_turns.size
     @end_results.reduce(&:+)
   end
@@ -88,9 +106,6 @@ class Game
       @rolls.reduce(&:+)
     end
 
-    def actual_score
-    end
-
     def strike?
       raw_score == 10 && @rolls.size == 1
     end
@@ -102,8 +117,8 @@ class Game
 end
 
 # game = Game.new
-#     rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+#     rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10]
 #     rolls.each { |pins| game.roll(pins) }
-#     assert_raises Game::BowlingError do
-#       game.roll(0)
-#     end
+#     p game.score
+
+    # @array_of_turns[9].strike? && (@array_of_turns.size < 11 && @array_of_turns.last.rolls.size != 2 || @array_of_turns.size < 12 && @array_of_turns.last.strike?)
