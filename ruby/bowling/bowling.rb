@@ -1,9 +1,16 @@
 class Game
+
+  class BowlingError < StandardError
+  end
+
   def initialize
     @array_of_turns = []
   end
 
   def roll(pins)
+    raise BowlingError if pins < 0 || pins > 10 || no_extra_rolls
+    # p @array_of_turns.empty? ? "empty" : "the game has had #{@array_of_turns.size} frames, score of the last frame was #{@array_of_turns.last.raw_score} and the current frame has been completed: #{!@array_of_turns.last.incomplete}"
+    # p @array_of_turns.size
     if @array_of_turns.empty?
       @array_of_turns << Turn.new(pins)
     elsif @array_of_turns.last.incomplete
@@ -13,58 +20,90 @@ class Game
     end
   end
 
+  def no_extra_rolls
+    return false if @array_of_turns.size < 10
+
+    if @array_of_turns[9].strike? || @array_of_turns[9].spare?
+      false
+    else
+      @array_of_turns.size == 10 && !@array_of_turns.last.incomplete
+    end
+  end
+
   def score
-    p @array_of_turns
-    @array_of_turns.map {|turn| turn.score}.reduce(&:+)
+    raise BowlingError if @array_of_turns.empty? || @array_of_turns.size < 10 || @array_of_turns.size == 10 &&  (@array_of_turns[9].strike? || @array_of_turns[9].spare?)
+
+    @end_results = []
+    @array_of_turns.each_with_index do |turn, index|
+      if index == 0
+        @end_results << turn.raw_score
+      elsif index > 9
+        @end_results << turn.raw_score
+      elsif @array_of_turns[index-1].spare?
+        if turn.strike?
+          @end_results << turn.raw_score * 2
+        else
+          @end_results << (turn.rolls[0] * 2 + turn.rolls[1])
+        end
+      elsif @array_of_turns[index-1].strike?
+        if @array_of_turns[index-2].strike?
+          if turn.strike?
+            @end_results << (turn.raw_score * 3)
+          else
+            @end_results << (turn.rolls[0] * 3 + turn.rolls[1] * 2)
+          end
+        else
+          @end_results << (turn.raw_score * 2)
+        end
+      else
+        @end_results << turn.raw_score
+      end
+    end
+    # p @array_of_turns.map { |x| x.spare?}
+    # p @array_of_turns.map { |x| x.strike?}
+    # p @end_results
+    # p @array_of_turns.size
+    @end_results.reduce(&:+)
   end
 
   class Turn
-    attr_accessor :rolls, :multiplier_self, :multiplier_next
-    def initialize(score)
-      @rolls = []
-      add_roll(score)
-      #multiplier of 0 for 0 rolls
-      @multiplier_self = [[1, 0]]
-      @multiplier_next = [[1, 0]]
 
+    attr_accessor :rolls
+    def initialize(pins_struck)
+      @rolls = []
+      add_roll(pins_struck)
     end
 
     def incomplete
-      @rolls.size != 2
+      @rolls.size != 2 && raw_score != 10
     end
 
-    def add_roll(score)
-      @rolls << score
-      @raw_score = @rolls.reduce(&:+)
-      if @raw_score == 10 && @rolls.size == 1
-        @multiplier_next[0][0] += 1
-        @multiplier_next[0][1] += 2
-      elsif @raw_score == 10 && @rolls.size == 2
-        @multiplier_next[0][0] += 1
-        @multiplier_next[0][1] += 1
-      end
+    def add_roll(pins_struck)
+      @rolls << pins_struck
+
+      raise BowlingError if raw_score > 10
     end
 
-    def score
-      @score = 0
-      if @multiplier_self[0] == 0
-        @score = @rolls.reduce(&:+)
-      else
-        @rolls.each do |roll|
-          if @multiplier_self[0][1] != 0
-            @score += roll * @multiplier_self[0][0]
-            @multiplier_self[0][1] -= 1
-          else
-            @score += roll
-          end
-        end
-      end
-      @score
+    def raw_score
+      @rolls.reduce(&:+)
+    end
+
+    def actual_score
+    end
+
+    def strike?
+      raw_score == 10 && @rolls.size == 1
+    end
+
+    def spare?
+      raw_score == 10 && @rolls.size == 2
     end
   end
 end
 
-game = Game.new
-    rolls = [6, 4, 3, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    rolls.each { |pins| game.roll(pins) }
-    game.score
+# game = Game.new
+#     rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+#     rolls.each { |pins| game.roll(pins) }
+#     assert_raises Game::BowlingError do
+#       game.roll(0)
+#     end
