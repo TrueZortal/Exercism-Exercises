@@ -9,7 +9,7 @@ class Game
   end
 
   def roll(pins)
-    raise BowlingError if pins.negative? || pins > 10 || no_extra_rolls
+    raise BowlingError if incorrect_pin_value(pins) || no_rolls_remaining
 
     add_roll_or_create_new_turn(pins)
   end
@@ -32,7 +32,7 @@ class Game
     end
   end
 
-  def no_extra_rolls
+  def no_rolls_remaining
     return false if @array_of_turns.size < 10
 
     if last_standard_turn_is_a_strike_or_spare
@@ -40,6 +40,10 @@ class Game
     else
       block_additional_rolls_for_a_completed_frame
     end
+  end
+
+  def incorrect_pin_value(pins)
+    pins.negative? || pins > 10
   end
 
   def block_additonal_rolls_for_strikes_and_spares
@@ -86,10 +90,14 @@ class Game
   end
 
   def last_turn_was_strike?(index)
+    return false if index == 0
+
     @array_of_turns[index - 1].strike?
   end
 
   def last_turn_was_spare?(index)
+    return false if index == 0
+
     @array_of_turns[index - 1].spare?
   end
 
