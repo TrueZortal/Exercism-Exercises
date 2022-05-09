@@ -28,14 +28,17 @@ class Say
   end
 
   def in_english
+    answer = String.new
     if @number < 10
-      @@numbers[@number]
+      answer << @@numbers[@number]
     elsif @number > 10 && @number < 20
-      "#{@@numbers[@number.digits.first]}teen"
+      answer << "#{@@numbers[@number.digits.first]}teen"
     elsif @number >= 20 && @number < 100
-      "#{@@tens[@number.digits.last]}#{@number.digits.first.zero? ? "" : "-#{@@numbers[@number.digits.first]}"}"
-    end
+      answer << "#{@@tens[@number.digits.last]}#{@number.digits.first.zero? ? "" : "-#{@@numbers[@number.digits.first]}"}"
+    elsif @number >= 100 && @number < 1000
 
+    end
+    answer
   end
 end
 
