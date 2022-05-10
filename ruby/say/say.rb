@@ -36,7 +36,7 @@ class Say
     elsif @number >= 20 && @number < 100
       answer << "#{@@tens[@number.digits.last]}#{@number.digits.first.zero? ? "" : "-#{@@numbers[@number.digits.first]}"}"
     elsif @number >= 100 && @number < 1000
-
+      answer << "#{@@numbers[@number.digits.last]} hundred#{@number.digits[1].zero? ? "" : " #{@@tens[@number.digits[1]]}"}#{@number.digits.first.zero? ? "" : "-#{@@numbers[@number.digits.first]}"}"
     end
     answer
   end

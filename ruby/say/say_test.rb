@@ -34,13 +34,13 @@ class SayTest < Minitest::Test
   end
 
   def test_one_hundred
-    skip
+    # skip
     number = 100
     assert_equal "one hundred", Say.new(number).in_english
   end
 
   def test_one_hundred_twenty_three
-    skip
+    # skip
     number = 123
     assert_equal "one hundred twenty-three", Say.new(number).in_english
   end
