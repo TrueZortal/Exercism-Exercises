@@ -46,44 +46,44 @@ class SayTest < Minitest::Test
   end
 
   def test_one_thousand
-    skip
+    # skip
     number = 1_000
     assert_equal "one thousand", Say.new(number).in_english
   end
 
   def test_one_thousand_two_hundred_thirty_four
-    skip
+    # skip
     number = 1_234
     assert_equal "one thousand two hundred thirty-four", Say.new(number).in_english
   end
 
   def test_one_million
-    skip
+    # skip
     number = 1_000_000
     assert_equal "one million", Say.new(number).in_english
   end
 
   def test_one_million_two_thousand_three_hundred_forty_five
-    skip
+    # skip
     number = 1_002_345
     assert_equal "one million two thousand three hundred forty-five", Say.new(number).in_english
   end
 
   def test_one_billion
-    skip
+    # skip
     number = 1_000_000_000
     assert_equal "one billion", Say.new(number).in_english
   end
 
   def test_a_big_number
-    skip
+    # skip
     number = 987_654_321_123
     assert_equal "nine hundred eighty-seven billion six hundred fifty-four million three hundred twenty-one thousand one hundred twenty-three",  # rubocop:disable Layout/LineLength
       Say.new(number).in_english
   end
 
   def test_numbers_below_zero_are_out_of_range
-    skip
+    # skip
     number = -1
     assert_raises(ArgumentError) do
       Say.new(number).in_english
@@ -91,7 +91,7 @@ class SayTest < Minitest::Test
   end
 
   def test_numbers_above_999_999_999_999_are_out_of_range
-    skip
+    # skip
     number = 1_000_000_000_000
     assert_raises(ArgumentError) do
       Say.new(number).in_english
