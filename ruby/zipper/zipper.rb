@@ -4,14 +4,21 @@ class Zipper
 
   def self.list(tree)
     # PRE-ORDER
-    p tree.value
-    if tree.left != nil
-      list(tree.left)
-    end
+    # p tree.value
+    # if tree.left != nil
+    #   list(tree.left)
+    # end
 
-    if tree.right != nil
-      list(tree.right)
-    end
+    # if tree.right != nil
+    #   list(tree.right)
+    # end
+
+    # PRE-ORDER 2
+    # if !tree.nil?
+    #   p tree.value
+    #   list(tree.left)
+    #   list(tree.right)
+    # end
 
     # POST-ORDER
     # if tree.left != nil
