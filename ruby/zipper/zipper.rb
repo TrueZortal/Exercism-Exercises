@@ -1,5 +1,6 @@
 class Zipper
   def self.from_tree(tree)
+    @zipped = []
   end
 
   def self.list(tree)
@@ -31,16 +32,29 @@ class Zipper
 
   end
 
+  def self.zippidyzipzip(tree)
+
+
+    if tree.left != nil
+      list(tree.left)
+    end
+
+    if tree.right != nil
+      list(tree.right)
+    end
+  end
+
   def self.to_tree
   end
 end
 
 class Node
-  attr_accessor :value, :left, :right
+  attr_accessor :value, :left, :right, :parent
   def initialize(value = nil, left = nil, right = nil)
     @value = value
     @left = left
     @right = right
+    @parent = nil
   end
 
 
