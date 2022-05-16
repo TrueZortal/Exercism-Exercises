@@ -1,4 +1,5 @@
 class Zipper
+  attr_reader :zipped
   def self.from_tree(tree)
     @zipped = []
   end
@@ -33,16 +34,20 @@ class Zipper
   end
 
   def self.zippidyzipzip(tree)
-
-
+    @zipped << [tree]
     if tree.left != nil
-      list(tree.left)
-    end
-
-    if tree.right != nil
-      list(tree.right)
+      zippidyzipzip(tree.left)
     end
   end
+
+    # if tree.left != nil
+    #   list(tree.left)
+    # end
+
+    # if tree.right != nil
+    #   list(tree.right)
+    # end
+  # end
 
   def self.to_tree
   end
@@ -87,7 +92,8 @@ tree =
           nil,
           nil))
 
-Zipper.list(tree)
+Zipper.zippidyzipzip(tree)
+Zipper.zipped
 
 # p tree.to_s
 
