@@ -42,10 +42,31 @@ class Recursion
   end
 
   def self.flatten(array)
-    return [] if array == []
+    stateful_flatten(array, [])
+  end
 
-    flatten(array)
+  private
+
+  def self.stateful_flatten(array, accumulator)
+    return accumulator if array == []
+
+    head, *tail = *array
+    if !head.respond_to?('each')
+      accumulator << head
+    elsif !head.empty?
+      current_state = stateful_flatten(head, [])
+      if current_state.size == 1
+        accumulator << current_state.first
+      else
+        current_state.each do |elem|
+          accumulator << elem
+        end
+      end
+    end
+    stateful_flatten(tail, accumulator)
   end
 end
 
+
+[1,[2,[3]]]
 

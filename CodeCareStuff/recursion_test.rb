@@ -90,19 +90,19 @@ class RecursionTest < Minitest::Test
   end
 
   def test_max_1_elem
-    skip
+    # skip
     answer = Recursion.max([1])
     assert_equal 1, answer
   end
 
   def test_max_2_elem
-    skip
+    # skip
     answer = Recursion.max([1, 3])
     assert_equal 3, answer
   end
 
   def test_max_from_sorted_array
-    skip
+    # skip
     answer = Recursion.max([1,2,3,4,5])
     assert_equal 5, answer
   end
@@ -120,32 +120,38 @@ class RecursionTest < Minitest::Test
   end
 
   def test_flatten_array_1_elem
-    skip
+    # skip
     answer = Recursion.flatten([1])
     assert_equal [1], answer
   end
 
   def test_flatten_multiple_elems
-    skip
+    # skip
     answer = Recursion.flatten([1, 2, 3])
     assert_equal [1, 2, 3], answer
   end
 
   def test_flatten_nested_empty
-    skip
+    # skip
     answer = Recursion.flatten([[]])
     assert_equal [], answer
   end
 
   def test_flatten_nested_individual_elements
-    skip
+    # skip
     answer = Recursion.flatten([[1],[2],[3]])
     assert_equal [1, 2, 3], answer
   end
 
   def test_flatten_multiple_nested
-    skip
+    # skip
     answer = Recursion.flatten([1,[2,[3]]])
+    assert_equal [1, 2, 3], answer
+  end
+
+  def test_flatten_multiple_nested_by_different
+    # skip
+    answer = Recursion.flatten([[[1],2],3])
     assert_equal [1, 2, 3], answer
   end
 
