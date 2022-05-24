@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Triangle
   def initialize(num_of_rows)
     @num_of_rows = num_of_rows
@@ -12,13 +14,9 @@ class Triangle
 
   def build
     @triangulated_rows = [[1]]
-    i = 2
-
     2.upto(@num_of_rows) do |index|
       @row = []
-      if index > 2
-        fill(@triangulated_rows[index-2])
-      end
+      fill(@triangulated_rows[index - 2]) if index > 2
       add_leading_trailing_ones
       @triangulated_rows << @row
     end
@@ -26,9 +24,7 @@ class Triangle
 
   def fill(row)
     row.each_with_index do |number, inner_index|
-      if inner_index <= row.size - 2
-        @row << number + row[inner_index + 1]
-      end
+      @row << number + row[inner_index + 1] if inner_index <= row.size - 2
     end
   end
 
