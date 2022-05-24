@@ -45,6 +45,12 @@ class Recursion
     stateful_flatten(array, [])
   end
 
+  # def self.moj_reduce(array, accumulator)
+  #   array.each do |x|
+  #     accumulator << yield(accumulator, x)
+  #   end
+  # end
+
   private
 
   def self.stateful_flatten(array, accumulator)
@@ -68,5 +74,9 @@ class Recursion
 end
 
 
-[1,[2,[3]]]
+# p Recursion.moj_reduce([1,2,3],[]) {|acc,y| acc + y }
+
+
+# p [1,2,3].reduce(&:+)
+# [1,[2,[3]]]
 
