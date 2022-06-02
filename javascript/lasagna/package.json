@@ -1,13 +1,13 @@
 {
-  "name": "@exercism/javascript-hello-world",
-  "description": "Exercism exercises in Javascript.",
-  "author": "Katrina Owen",
+  "name": "@exercism/javascript-lasagna",
+  "description": "Exercism concept exercise on basics",
+  "author": "Derk-Jan Karrenbeld <derk-jan+github@karrenbeld.info>",
   "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/exercism/javascript",
-    "directory": "exercises/practice/hello-world"
+    "directory": "exercises/concept/lasagna"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
@@ -20,6 +20,7 @@
     "eslint": "^8.16.0",
     "jest": "^28.1.0"
   },
+  "dependencies": {},
   "scripts": {
     "test": "jest ./*",
     "watch": "jest --watch ./*",
