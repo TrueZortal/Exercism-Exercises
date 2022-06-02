@@ -20,7 +20,6 @@
     "eslint": "^8.16.0",
     "jest": "^28.1.0"
   },
-  "dependencies": {},
   "scripts": {
     "test": "jest ./*",
     "watch": "jest --watch ./*",
