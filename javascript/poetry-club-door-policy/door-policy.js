@@ -50,7 +50,8 @@ export function frontDoorPassword(word) {
  * @returns {string}
  */
 export function backDoorResponse(line) {
-  return line[line.length - 1];
+  let trimmed_line = line.trim()
+  return trimmed_line[trimmed_line.length - 1];
 }
 
 /**
@@ -61,7 +62,6 @@ export function backDoorResponse(line) {
  * @returns {string} the back door password
  */
 export function backDoorPassword(word) {
-  let trimmed_word = word.trim();
-  let downcased_word = trimmed_word.toLowerCase();
+  let downcased_word = word.toLowerCase();
   return downcased_word[0].toUpperCase() + downcased_word.slice(1) + ', please';
 }
