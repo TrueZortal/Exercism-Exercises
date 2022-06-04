@@ -23,8 +23,7 @@ export function needsLicense(kind) {
  * @returns {string} a sentence of advice which option to choose
  */
 export function chooseVehicle(option1, option2) {
-  let list_of_cars = [option1, option2];
-  list_of_cars.sort();
+  let list_of_cars = [option1, option2].sort();
   return list_of_cars[0] + ' is clearly the better choice.';
 }
 
