@@ -47,6 +47,7 @@ export function removePlayer(scoreBoard, player) {
  * @returns {Record<string, number>} updated score board
  */
 export function updateScore(scoreBoard, player, points) {
+  let score = scoreBoard[player] + points
   scoreBoard[player] = score;
   return scoreBoard;
 }
@@ -58,7 +59,11 @@ export function updateScore(scoreBoard, player, points) {
  * @returns {Record<string, number>} updated score board
  */
 export function applyMondayBonus(scoreBoard) {
-  throw new Error('Please implement the applyMondayBonus function');
+  for (let key in scoreBoard) {
+    let score = scoreBoard[key] + 100
+    scoreBoard[key] = score
+  }
+  return scoreBoard;
 }
 
 /**
@@ -68,5 +73,5 @@ export function applyMondayBonus(scoreBoard) {
  * @returns {number} normalized score
  */
 export function normalizeScore(params) {
-  throw new Error('Please implement the normalizeScore function');
+  return params['normalizeFunction'](params['score']);
 }
