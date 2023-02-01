@@ -12,7 +12,7 @@ load bats-extra
 }
 
 @test "one long argument" {
-  [[ $BATS_RUN_SKIPPED == "true" ]] || skip
+  #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
   run bash error_handling.sh "Alice and Bob"
 
   assert_success
@@ -20,7 +20,7 @@ load bats-extra
 }
 
 @test "incorrect arguments" {
-  [[ $BATS_RUN_SKIPPED == "true" ]] || skip
+  #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
   run bash error_handling.sh Alice Bob
 
   assert_failure
@@ -28,7 +28,7 @@ load bats-extra
 }
 
 @test "print usage banner with no value given" {
-  [[ $BATS_RUN_SKIPPED == "true" ]] || skip
+  #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
   run bash error_handling.sh
 
   assert_failure
@@ -36,7 +36,7 @@ load bats-extra
 }
 
 @test "empty argument" {
-  [[ $BATS_RUN_SKIPPED == "true" ]] || skip
+  #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
   run bash error_handling.sh ""
 
   assert_success
