@@ -6,7 +6,7 @@ defmodule FreelancerRates do
   def monthly_rate(hourly_rate, discount) do
     trunc(
       Float.ceil(
-          (8 * 22 * hourly_rate) * ((100 - discount)/100)
+          apply_discount((8 * 22 * hourly_rate), discount)
         )
       )
   end
