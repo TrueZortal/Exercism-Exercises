@@ -27,7 +27,7 @@ defmodule LogLevel do
       to_label(level, legacy?) in ops_problems_list -> :ops
       to_label(level, legacy?) == :unknown and legacy? -> :dev1
       to_label(level, legacy?) == :unknown -> :dev2
-      true -> true
+      true -> false
     end
   end
 end
