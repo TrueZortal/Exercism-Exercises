@@ -31,14 +31,3 @@ defmodule LogLevel do
     end
   end
 end
-
-
-# | Log code | Log label | Supported in legacy apps? |
-# | -------- | --------- | ------------------------- |
-# | 0        | trace     | no                        |
-# | 1        | debug     | yes                       |
-# | 2        | info      | yes                       |
-# | 3        | warning   | yes                       |
-# | 4        | error     | yes                       |
-# | 5        | fatal     | no                        |
-# | ?        | unknown   | -                         |
