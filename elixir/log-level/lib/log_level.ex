@@ -22,7 +22,13 @@ defmodule LogLevel do
   end
 
   def alert_recipient(level, legacy?) do
-    # Please implement the alert_recipient/2 function
+    ops_problems_list = [:error, :fatal]
+    cond do
+      to_label(level, legacy?) in ops_problems_list -> :ops
+      to_label(level, legacy?) == :unknown and legacy? -> :dev1
+      to_label(level, legacy?) == :unknown -> :dev2
+      true -> true
+    end
   end
 end
 
