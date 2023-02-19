@@ -10,10 +10,20 @@ defmodule BirdCount do
   def has_day_without_birds?(list), do: has_day_without_birds?(tl(list))
 
   def total([] = list), do: 0
-  def total([:head | _] = list) when :head > 0, do: hd(list)
+  def total(list) when length(list) == 1, do: hd(list)
   def total(list), do: total( [ (hd(list) + hd(tl(list))) | tl(tl(list)) ])
 
+  def busy_days([] = _list), do: 0
+  def busy_days(list) when length(list) == 1 and hd(list) > 4, do: 1
   def busy_days(list) do
+    if length(list) == 1 and hd(list) <= 4 do
+      0
+    else
+      cond do
+        length(list) > 1 -> [hd(list)+1 | tl(tl(list))]
+        length(list) == 1 -> hd(list)
+      end
+    end
 
   end
 end
