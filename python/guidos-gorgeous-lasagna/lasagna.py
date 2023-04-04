@@ -47,4 +47,3 @@ def elapsed_time_in_minutes(number_of_layers,elapsed_bake_time):
     lasagna.
     """
     return preparation_time_in_minutes(number_of_layers) + elapsed_bake_time
-
