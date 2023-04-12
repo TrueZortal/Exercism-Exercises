@@ -38,9 +38,9 @@ def reactor_efficiency(voltage, current, theoretical_max_power):
     percentage = ((current * voltage) / theoretical_max_power) * 100
     if percentage >= 80:
         return 'green'
-    if percentage < 80 and percentage >= 60:
+    if 80 > percentage >= 60:
         return 'orange'
-    if percentage < 60 and percentage >= 30:
+    if 60 > percentage >= 30:
         return 'red'
 
     return 'black'
