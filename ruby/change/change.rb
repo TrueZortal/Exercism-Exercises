@@ -1,34 +1,27 @@
 class Change
   def self.generate(coins, amount)
-    @coins = coins.reverse
+    # return [amount] if amount in coins
     @amount = amount
-    @change = []
-    @possible_change = []
-    until @amount == 0
-      check_for_coins_that_fit
-      @possible_change.each_with_index do |coin, index|
-      if @amount - coin >= 0 #&& @possible_change.any? {|x| @amount - coin % x == 0}
-        p @amount - coin
-        p @possible_change.select {|x| @amount - coin % x == 0}
-        @amount -= coin
-        @change.unshift(coin)
-        break
-      end
+    solution = []
+
+    until @amount.zero?
+      grabbed_modulo_coin = coins.select { |elem| (amount % elem).zero? }.select { |elem| elem <= @amount }.max
+      grabbed_max_coin = coins.select { |elem| elem <= @amount }.max
+
+      # if grabbed_modulo_coin == grabbed_max_coin
+        solution.unshift(grabbed_max_coin)
+        @amount -= grabbed_max_coin
+      # else
+        # solution.unshift(grabbed_modulo_coin)
+        # @amount -= grabbed_modulo_coin
+      # end
+      # p "#{solution} remaining #{@amount}"
+      # p grabbed_coin
     end
 
-    end
-    @change
+    solution
   end
-
-    def self.check_for_largest_mod_0_of_any_remaining_coin(change)
-      @possible_change.select {|coin| change % coin == 0}.max
-    end
-
-    def self.check_for_coins_that_fit
-      @coins.each do |coin|
-        if @amount - coin >= 0
-          @possible_change << coin
-        end
-      end
-    end
 end
+
+#find smallest combination of elements of an array up to an amount
+#check if it can be done in 1 coin
