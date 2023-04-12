@@ -19,47 +19,47 @@ class ChangeTest < Minitest::Test
   end
 
   def test_change_with_lower_elbonia_coins
-    skip
+    # skip
     assert_equal [21, 21, 21], Change.generate([1, 5, 10, 21, 25], 63)
   end
 
   def test_large_target_values
-    skip
+    # skip
     assert_equal [2, 2, 5, 20, 20, 50, 100, 100, 100, 100, 100, 100, 100, 100, 100],
       Change.generate([1, 2, 5, 10, 20, 50, 100], 999)
   end
 
   def test_possible_change_without_unit_coins_available
-    skip
+    # skip
     assert_equal [2, 2, 2, 5, 10], Change.generate([2, 5, 10, 20, 50], 21)
   end
 
   def test_another_possible_change_without_unit_coins_available
-    skip
+    # skip
     assert_equal [4, 4, 4, 5, 5, 5], Change.generate([4, 5], 27)
   end
 
   def test_no_coins_make_0_change
-    skip
+    # skip
     assert_empty Change.generate([1, 5, 10, 21, 25], 0)
   end
 
   def test_error_testing_for_change_smaller_than_the_smallest_of_coins
-    skip
+    # skip
     assert_raises(Change::ImpossibleCombinationError) do
       Change.generate([5, 10], 3)
     end
   end
 
   def test_error_if_no_combination_can_add_up_to_target
-    skip
+    # skip
     assert_raises(Change::ImpossibleCombinationError) do
       Change.generate([5, 10], 94)
     end
   end
 
   def test_cannot_find_negative_change_values
-    skip
+    # skip
     assert_raises(Change::NegativeTargetError) do
       Change.generate([1, 2, 5], -5)
     end
