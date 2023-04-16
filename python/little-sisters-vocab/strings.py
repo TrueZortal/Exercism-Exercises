@@ -55,4 +55,4 @@ def adjective_to_verb(sentence, index):
     For example, ("It got dark as the sun set", 2) becomes "darken".
     """
 
-    return re.split('\W',sentence)[:-1][index] + 'en'
+    return re.split(r'\W',sentence)[:-1][index] + 'en'
