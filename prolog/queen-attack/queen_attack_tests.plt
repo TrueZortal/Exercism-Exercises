@@ -29,16 +29,16 @@ pending :-
 
 :- begin_tests(attack_tests).
 
-    test(cant_attack, [fail, condition(pending)]) :-
+    test(cant_attack, [fail, condition(true)]) :-
       attack((2,4), (6,6)).
 
-    test(attack_on_same_row, condition(pending)) :-
+    test(attack_on_same_row, condition(true)) :-
       attack((2,4), (2,6)).
 
-    test(attack_same_column, condition(pending)) :-
+    test(attack_same_column, condition(true)) :-
       attack((4,5), (2,5)).
 
-    test(attack_first_diagonal, condition(pending)) :-
+    test(attack_first_diagonal, condition(true)) :-
       attack((2,2), (0,4)).
 
     test(attack_second_diagonal, condition(pending)) :-
