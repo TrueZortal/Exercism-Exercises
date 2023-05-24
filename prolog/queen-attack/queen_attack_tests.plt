@@ -41,13 +41,13 @@ pending :-
     test(attack_first_diagonal, condition(true)) :-
       attack((2,2), (0,4)).
 
-    test(attack_second_diagonal, condition(pending)) :-
+    test(attack_second_diagonal, condition(true)) :-
       attack((2,2), (3,1)).
 
-    test(attack_third_diagonal, condition(pending)) :-
+    test(attack_third_diagonal, condition(true)) :-
       attack((2,2), (1,1)).
 
-    test(attack_fourth_diagonal, condition(pending)) :-
+    test(attack_fourth_diagonal, condition(true)) :-
       attack((2,2), (5,5)).
 
 :- end_tests(attack_tests).

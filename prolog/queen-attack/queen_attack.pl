@@ -12,3 +12,7 @@ attack((FromX, FromY), (ToX, ToY)):-
 attack((FromX, FromY), (ToX, ToY)):-
 	(FromX + FromY) =:= (ToX + ToY),
 	!.
+
+attack((FromX, FromY), (ToX, ToY)):-
+	(FromX / FromY) =:= (ToX / ToY),
+	!.
