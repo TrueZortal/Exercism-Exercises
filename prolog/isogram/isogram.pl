@@ -1,13 +1,11 @@
 checkletter(Char) :-
-char_type(Char, alpha).
-
-isogram(""):- !.
+  char_type(Char, alpha).
 
 isogram(Phrase) :-
-string_lower(Phrase, LwrPhrase),
-string_chars(LwrPhrase, Chars),
-msort(Chars, Sorted),
-include(checkletter, Sorted, Remaining),
-is_set(Remaining).
+  string_lower(Phrase, LwrPhrase),
+  string_chars(LwrPhrase, Chars),
+  msort(Chars, Sorted),
+  include(checkletter, Sorted, Remaining),
+  is_set(Remaining).
 
 
