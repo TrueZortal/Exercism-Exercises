@@ -1,6 +1,11 @@
+translate(49, 1).
+translate(48, 0).
+
 binary(Str, Dec) :-
- string_chars(Str, chars),
- maplist(number_chars,numbers,chars),
- sumlist(numbers,Dec).
+  atom_codes(Str, Codes),
+  maplist(translate,Codes, Numbers),
+  print(Numbers),
+  sumlist(Numbers,Dec),
+  print(Dec).
 
 

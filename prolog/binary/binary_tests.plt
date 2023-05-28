@@ -9,10 +9,10 @@ pending :-
     test(binary_0_is_decimal_0, condition(true)) :-
         binary("0", Result), Result == 0.
 
-    test(binary_1_is_decimal_1, condition(pending)) :-
+    test(binary_1_is_decimal_1, condition(true)) :-
         binary("1", Result), Result == 1.
 
-    test(binary_10_is_decimal_2, condition(pending)) :-
+    test(binary_10_is_decimal_2, condition(true)) :-
         binary("10", Result), Result == 2.
 
     test(binary_11_is_decimal_3, condition(pending)) :-
